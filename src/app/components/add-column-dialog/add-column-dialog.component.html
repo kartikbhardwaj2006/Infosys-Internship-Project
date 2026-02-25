@@ -1,0 +1,42 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60"
+  (click)="onCancel()"
+>
+  <div
+    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-sm"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-200 mb-4">Add Column</h2>
+      <form (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+          <label for="columnTitle" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Column name</label>
+          <input
+            id="columnTitle"
+            type="text"
+            [ngModel]="columnTitle()"
+            (ngModelChange)="columnTitle.set($event)"
+            name="columnTitle"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            placeholder="e.g. Backlog"
+          />
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button
+            type="submit"
+            class="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            Add
+          </button>
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

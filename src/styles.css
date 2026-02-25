@@ -1,0 +1,6 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+/* Class-based dark mode: add .dark on <html> to enable dark: utilities */
+@custom-variant dark (&:where(.dark, .dark *));

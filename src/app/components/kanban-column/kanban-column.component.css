@@ -1,0 +1,23 @@
+/* CDK drag preview: stronger shadow, slight scale, rounded to match column cards */
+.cdk-drag-preview {
+  opacity: 0.98;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  transform: scale(1.02);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.35;
+  transition: opacity 200ms ease;
+}
+
+.cdk-drag-animating {
+  transition: transform 200ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Source card while dragging */
+.cdk-drag-dragging {
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+}

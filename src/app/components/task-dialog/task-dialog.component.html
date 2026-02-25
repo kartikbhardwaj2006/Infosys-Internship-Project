@@ -1,0 +1,101 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60"
+  (click)="onCancel()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="task-dialog-title"
+>
+  <div
+    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
+    (click)="$event.stopPropagation()"
+    (keydown.escape)="onCancel()"
+  >
+    <div class="p-6">
+      <h2 id="task-dialog-title" class="text-lg font-semibold text-gray-900 dark:text-gray-200 mb-4">
+        {{ mode() === 'edit' ? 'Edit Task' : 'New Task' }}
+      </h2>
+      <form (ngSubmit)="onSubmit()" class="space-y-4" #taskForm="ngForm">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title <span class="text-red-500">*</span></label>
+          <input
+            id="title"
+            type="text"
+            [ngModel]="title()"
+            (ngModelChange)="title.set($event)"
+            name="title"
+            required
+            minlength="1"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            placeholder="Task title"
+          />
+        </div>
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+          <textarea
+            id="description"
+            [ngModel]="description()"
+            (ngModelChange)="description.set($event)"
+            name="description"
+            rows="3"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            placeholder="Optional description"
+          ></textarea>
+        </div>
+        <div>
+          <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
+          <select
+            id="priority"
+            [ngModel]="priority()"
+            (ngModelChange)="priority.set($event)"
+            name="priority"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          >
+            @for (p of priorities; track p) {
+              <option [value]="p">{{ p }}</option>
+            }
+          </select>
+        </div>
+        <div>
+          <label for="dueDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date (optional)</label>
+          <input
+            id="dueDate"
+            type="date"
+            [ngModel]="dueDate()"
+            (ngModelChange)="dueDate.set($event)"
+            name="dueDate"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label for="columnId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Column</label>
+          <select
+            id="columnId"
+            [ngModel]="columnId()"
+            (ngModelChange)="columnId.set($event)"
+            name="columnId"
+            class="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          >
+            @for (col of columnOptions(); track col.id) {
+              <option [value]="col.id">{{ col.title }}</option>
+            }
+          </select>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button
+            type="submit"
+            class="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            {{ mode() === 'edit' ? 'Save' : 'Add Task' }}
+          </button>
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
