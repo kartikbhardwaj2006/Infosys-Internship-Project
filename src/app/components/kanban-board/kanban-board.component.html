@@ -132,11 +132,15 @@
       cdkDropListOrientation="horizontal"
       [cdkDropListData]="columnDefs()"
       (cdkDropListDropped)="onColumnDrop($event)"
-      class="grid gap-4 flex-1 min-w-0 overflow-x-auto pb-2"
+      class="grid gap-4 flex-1 min-w-0 overflow-x-auto pb-2 items-stretch"
       [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'"
     >
       @for (col of columns(); track col.id) {
-        <div cdkDrag [cdkDragData]="col" class="h-full">
+        <div
+          cdkDrag
+          [cdkDragData]="col"
+          class="h-full cursor-grab active:cursor-grabbing select-none"
+        >
           <app-kanban-column
             [columnId]="col.id"
             [title]="col.title"
