@@ -48,6 +48,15 @@ export class TaskCardComponent {
     return d.toLocaleDateString(undefined, { dateStyle: 'short' });
   }
 
+  isOverdue(isoDate?: string): boolean {
+    if (!isoDate) return false;
+    const due = new Date(isoDate);
+    const today = new Date();
+    due.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return due.getTime() < today.getTime();
+  }
+
   handleEdit(): void {
     this.onEdit.emit(this.task());
   }

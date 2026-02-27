@@ -4,15 +4,84 @@
     class="sticky top-0 z-10 -mx-4 px-4 py-4 mb-6 -mt-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 transition-shadow duration-200"
   >
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Kartik's Task Manager</h1>
+      <div class="flex flex-col gap-1">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">FlowBoard</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Today, {{ todayLabel }}
+        </p>
+      </div>
       <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-        <input
-          type="search"
-          [value]="searchQuery()"
-          (input)="searchQuery.set($any($event.target).value)"
-          placeholder="Search tasks by title..."
-          class="rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none min-w-[200px] transition-shadow duration-200"
-        />
+        <div class="flex flex-wrap items-center gap-2">
+          <input
+            type="search"
+            [value]="searchQuery()"
+            (input)="searchQuery.set($any($event.target).value)"
+            placeholder="Search tasks by title..."
+            class="rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none min-w-[200px] transition-shadow duration-200"
+          />
+          <div
+            class="flex items-center gap-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 px-2 py-1"
+            role="radiogroup"
+            aria-label="Filter tasks by due date"
+          >
+            <button
+              type="button"
+              (click)="setDateFilter('all')"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+              [class.bg-blue-500]="dateFilter() === 'all'"
+              [class.text-white]="dateFilter() === 'all'"
+              [class.shadow-sm]="dateFilter() === 'all'"
+              [class.text-gray-600]="dateFilter() !== 'all'"
+              [class.dark:text-gray-300]="dateFilter() !== 'all'"
+              [class.hover:bg-gray-100]="dateFilter() !== 'all'"
+              [class.dark:hover:bg-gray-700/60]="dateFilter() !== 'all'"
+            >
+              All
+            </button>
+            <button
+              type="button"
+              (click)="setDateFilter('today')"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+              [class.bg-blue-500]="dateFilter() === 'today'"
+              [class.text-white]="dateFilter() === 'today'"
+              [class.shadow-sm]="dateFilter() === 'today'"
+              [class.text-gray-600]="dateFilter() !== 'today'"
+              [class.dark:text-gray-300]="dateFilter() !== 'today'"
+              [class.hover:bg-gray-100]="dateFilter() !== 'today'"
+              [class.dark:hover:bg-gray-700/60]="dateFilter() !== 'today'"
+            >
+              Due today
+            </button>
+            <button
+              type="button"
+              (click)="setDateFilter('overdue')"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+              [class.bg-red-500]="dateFilter() === 'overdue'"
+              [class.text-white]="dateFilter() === 'overdue'"
+              [class.shadow-sm]="dateFilter() === 'overdue'"
+              [class.text-gray-600]="dateFilter() !== 'overdue'"
+              [class.dark:text-gray-300]="dateFilter() !== 'overdue'"
+              [class.hover:bg-gray-100]="dateFilter() !== 'overdue'"
+              [class.dark:hover:bg-gray-700/60]="dateFilter() !== 'overdue'"
+            >
+              Overdue
+            </button>
+            <button
+              type="button"
+              (click)="setDateFilter('upcoming')"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+              [class.bg-emerald-500]="dateFilter() === 'upcoming'"
+              [class.text-white]="dateFilter() === 'upcoming'"
+              [class.shadow-sm]="dateFilter() === 'upcoming'"
+              [class.text-gray-600]="dateFilter() !== 'upcoming'"
+              [class.dark:text-gray-300]="dateFilter() !== 'upcoming'"
+              [class.hover:bg-gray-100]="dateFilter() !== 'upcoming'"
+              [class.dark:hover:bg-gray-700/60]="dateFilter() !== 'upcoming'"
+            >
+              Upcoming
+            </button>
+          </div>
+        </div>
         <div class="flex items-center gap-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 p-1">
           <button
             type="button"
@@ -27,6 +96,13 @@
             class="rounded-lg bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200"
           >
             Add Task
+          </button>
+          <button
+            type="button"
+            (click)="downloadFilteredTasks()"
+            class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white/80 dark:bg-gray-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all duration-200"
+          >
+            Download
           </button>
           <button
             type="button"
@@ -50,28 +126,41 @@
   </header>
 
   <!-- Dynamic Kanban columns -->
-  <div cdkDropListGroup class="grid gap-4 flex-1 min-w-0" [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'">
-    @for (col of columns(); track col.id) {
-      <app-kanban-column
-        [columnId]="col.id"
-        [title]="col.title"
-        [tasks]="col.tasks"
-        [connectedListIds]="connectedListIds()"
-        [canDelete]="columns().length > 1"
-        (dropped)="onDrop($event)"
-        (editTask)="openEditTask($event)"
-        (deleteTask)="requestDeleteTask($event)"
-        (deleteColumn)="requestDeleteColumn(col.id, col.title)"
-      >
-        <button
-          type="button"
-          (click)="openAddTask(col.id)"
-          class="mt-2 w-full text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl py-2.5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-        >
-          + Add task
-        </button>
-      </app-kanban-column>
-    }
+  <div cdkDropListGroup class="flex-1 min-w-0 flex">
+    <div
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      [cdkDropListData]="columns()"
+      (cdkDropListDropped)="onColumnDrop($event)"
+      class="grid gap-4 flex-1 min-w-0 overflow-x-auto pb-2"
+      [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'"
+    >
+      @for (col of columns(); track col.id) {
+        <div cdkDrag [cdkDragData]="col" class="h-full">
+          <app-kanban-column
+            [columnId]="col.id"
+            [title]="col.title"
+            [tasks]="col.tasks"
+            [connectedListIds]="connectedListIds()"
+            [canDelete]="columns().length > 1"
+            (dropped)="onDrop($event)"
+            (editTask)="openEditTask($event)"
+            (deleteTask)="requestDeleteTask($event)"
+            (deleteColumn)="requestDeleteColumn(col.id, col.title)"
+            (clearColumn)="requestClearColumn(col.id, col.title)"
+            (downloadColumn)="downloadColumnTasks(col.id, col.title)"
+          >
+            <button
+              type="button"
+              (click)="openAddTask(col.id)"
+              class="mt-2 w-full text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl py-2.5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            >
+              + Add task
+            </button>
+          </app-kanban-column>
+        </div>
+      }
+    </div>
   </div>
 
   @if (showTaskDialog()) {
@@ -90,6 +179,41 @@
       (saved)="onAddColumnSaved($event)"
       (cancelled)="onAddColumnCancelled()"
     />
+  }
+
+  <!-- Clear column confirmation -->
+  @if (showClearColumnConfirm()) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60"
+      (click)="cancelClearColumn()"
+    >
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg w-full max-w-sm p-6"
+        (click)="$event.stopPropagation()"
+      >
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-200 mb-2">Clear column?</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          All tasks in "{{ showClearColumnConfirm()!.columnTitle }}" will be permanently removed from this column.
+          This cannot be undone.
+        </p>
+        <div class="flex gap-3">
+          <button
+            type="button"
+            (click)="confirmClearColumn()"
+            class="flex-1 rounded-xl bg-red-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-200"
+          >
+            Clear column
+          </button>
+          <button
+            type="button"
+            (click)="cancelClearColumn()"
+            class="rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-200"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
   }
 
   <!-- Delete task confirmation -->

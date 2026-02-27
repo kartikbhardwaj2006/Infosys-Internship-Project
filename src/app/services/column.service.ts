@@ -46,6 +46,12 @@ export class ColumnService {
     return this.columnsSignal().length <= 1;
   }
 
+  /** Reorder columns based on drag-and-drop indices and persist the new order. */
+  setColumns(columns: ColumnDefinition[]): void {
+    this.columnsSignal.set([...columns]);
+    this.saveToStorage();
+  }
+
   private generateColumnId(): string {
     return `col_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
   }

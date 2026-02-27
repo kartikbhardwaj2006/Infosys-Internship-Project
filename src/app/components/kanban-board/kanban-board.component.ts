@@ -1,19 +1,29 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CdkDropListGroup } from '@angular/cdk/drag-drop';
+import {
+  CdkDropListGroup,
+  CdkDropList,
+  CdkDrag,
+  CdkDragDrop,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { TaskService } from '../../services/task.service';
 import { ColumnService } from '../../services/column.service';
 import { ThemeService } from '../../services/theme.service';
 import { ToastService } from '../../services/toast.service';
-import { Task, Column } from '../../models/task.model';
+import { Task, Column, ColumnDefinition } from '../../models/task.model';
 import { KanbanColumnComponent } from '../kanban-column/kanban-column.component';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 import { AddColumnDialogComponent } from '../add-column-dialog/add-column-dialog.component';
+
+type DateFilter = 'all' | 'today' | 'overdue' | 'upcoming';
 
 @Component({
   selector: 'app-kanban-board',
   standalone: true,
   imports: [
     CdkDropListGroup,
+    CdkDropList,
+    CdkDrag,
     KanbanColumnComponent,
     TaskDialogComponent,
     AddColumnDialogComponent,
@@ -27,10 +37,19 @@ export class KanbanBoardComponent {
   private themeService = inject(ThemeService);
   private toast = inject(ToastService);
 
+  /** Today (normalized to midnight) for efficient date comparisons. */
+  private readonly today = (() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  })();
+
   searchQuery = signal('');
+  dateFilter = signal<DateFilter>('all');
   showTaskDialog = signal(false);
   showAddColumnDialog = signal(false);
   showDeleteConfirm = signal<{ columnId: string; columnTitle: string } | null>(null);
+  showClearColumnConfirm = signal<{ columnId: string; columnTitle: string } | null>(null);
   /** Task pending delete confirmation (null = no dialog). */
   showDeleteTaskConfirm = signal<Task | null>(null);
   dialogMode = signal<'create' | 'edit'>('create');
@@ -43,9 +62,30 @@ export class KanbanBoardComponent {
 
   private filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
+    const filter = this.dateFilter();
     const list = this.allTasks() ?? [];
-    if (!query) return list;
-    return list.filter((t) => t.title.toLowerCase().includes(query));
+    return list.filter((t) => {
+      const matchesQuery = !query || t.title.toLowerCase().includes(query);
+      if (!matchesQuery) return false;
+      if (filter === 'all') return true;
+      if (!t.dueDate) return false;
+
+      const due = new Date(t.dueDate);
+      due.setHours(0, 0, 0, 0);
+      const dueTime = due.getTime();
+      const todayTime = this.today.getTime();
+
+      switch (filter) {
+        case 'today':
+          return dueTime === todayTime;
+        case 'overdue':
+          return dueTime < todayTime;
+        case 'upcoming':
+          return dueTime > todayTime;
+        default:
+          return true;
+      }
+    });
   });
 
   /** Dynamic columns with their tasks (filtered by search). Order matches column service. */
@@ -65,7 +105,18 @@ export class KanbanBoardComponent {
   /** Theme for template (light/dark). */
   theme = this.themeService.theme;
 
-  onDrop(event: import('@angular/cdk/drag-drop').CdkDragDrop<Task[]>): void {
+  readonly todayLabel = new Intl.DateTimeFormat(undefined, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(this.today);
+
+  setDateFilter(filter: DateFilter): void {
+    this.dateFilter.set(filter);
+  }
+
+  onDrop(event: CdkDragDrop<Task[]>): void {
     const task = event.item.data as Task;
     const prevId = event.previousContainer.id as string;
     const currId = event.container.id as string;
@@ -108,6 +159,13 @@ export class KanbanBoardComponent {
       const col = this.columnService.getColumnById(currId);
       this.toast.success(`Moved to ${col?.title ?? currId}`);
     }
+  }
+
+  onColumnDrop(event: CdkDragDrop<ColumnDefinition[]>): void {
+    if (event.previousIndex === event.currentIndex) return;
+    const current = [...this.columnDefs()];
+    moveItemInArray(current, event.previousIndex, event.currentIndex);
+    this.columnService.setColumns(current);
   }
 
   openAddTask(columnId: string = 'todo'): void {
@@ -195,6 +253,26 @@ export class KanbanBoardComponent {
     this.showDeleteConfirm.set(null);
   }
 
+  requestClearColumn(columnId: string, columnTitle: string): void {
+    this.showClearColumnConfirm.set({ columnId, columnTitle });
+  }
+
+  confirmClearColumn(): void {
+    const data = this.showClearColumnConfirm();
+    if (!data) return;
+    const { columnId, columnTitle } = data;
+    const taskCount = this.taskService.getTasksByColumnId(columnId).length;
+    if (taskCount > 0) {
+      this.taskService.clearTasksByColumnId(columnId);
+      this.toast.success(`Cleared ${taskCount} task(s) from "${columnTitle}".`);
+    }
+    this.showClearColumnConfirm.set(null);
+  }
+
+  cancelClearColumn(): void {
+    this.showClearColumnConfirm.set(null);
+  }
+
   toggleTheme(): void {
     this.themeService.toggleTheme();
     const newTheme = this.themeService.theme();
@@ -206,5 +284,47 @@ export class KanbanBoardComponent {
     const data = this.showDeleteConfirm();
     if (!data) return 0;
     return this.taskService.getTasksByColumnId(data.columnId).length;
+  }
+
+  downloadAllTasks(): void {
+    const tasks = this.allTasks() ?? [];
+    this.downloadAsJson(tasks, 'tasks-all.json');
+    this.toast.info('Downloaded all tasks.');
+  }
+
+  downloadFilteredTasks(): void {
+    const tasks = this.filteredTasks() ?? [];
+    const filename =
+      this.dateFilter() === 'all' && !this.searchQuery().trim()
+        ? 'tasks-all.json'
+        : 'tasks-filtered.json';
+    this.downloadAsJson(tasks, filename);
+    this.toast.info('Downloaded filtered tasks.');
+  }
+
+  downloadColumnTasks(columnId: string, columnTitle: string): void {
+    const tasks = this.taskService.getTasksByColumnId(columnId);
+    const safeId = columnId.toLowerCase().replace(/\s+/g, '-');
+    const filename = `tasks-${safeId}.json`;
+    this.downloadAsJson(tasks, filename);
+    this.toast.info(`Downloaded tasks for "${columnTitle}".`);
+  }
+
+  private downloadAsJson(data: unknown, filename: string): void {
+    try {
+      const blob = new Blob([JSON.stringify(data, null, 2)], {
+        type: 'application/json',
+      });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      this.toast.error('Unable to download tasks.');
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
   }
 }

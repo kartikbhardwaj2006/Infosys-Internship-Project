@@ -23,4 +23,6 @@ export class KanbanColumnComponent {
   editTask = output<Task>();
   deleteTask = output<Task>();
   deleteColumn = output<void>();
+  clearColumn = output<void>();
+  downloadColumn = output<void>();
 }

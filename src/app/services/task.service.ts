@@ -52,6 +52,11 @@ export class TaskService {
     this.saveToStorage();
   }
 
+  clearTasksByColumnId(columnId: string): void {
+    this.tasksSignal.update((list) => list.filter((t) => t.columnId !== columnId));
+    this.saveToStorage();
+  }
+
   /** Replace full task list (used after drag-drop reorder). */
   setTasks(tasks: Task[]): void {
     this.tasksSignal.set([...tasks]);
