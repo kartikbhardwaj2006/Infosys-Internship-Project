@@ -58,7 +58,8 @@ export class KanbanBoardComponent {
   defaultColumnId = signal<string>('todo');
 
   private allTasks = this.taskService.tasks;
-  private columnDefs = this.columnService.columns;
+  /** Raw column definitions (id + title), also used for column drag-drop data. */
+  readonly columnDefs = this.columnService.columns;
 
   private filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();

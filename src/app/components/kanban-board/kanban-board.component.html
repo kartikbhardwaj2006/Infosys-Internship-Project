@@ -130,7 +130,7 @@
     <div
       cdkDropList
       cdkDropListOrientation="horizontal"
-      [cdkDropListData]="columns()"
+      [cdkDropListData]="columnDefs()"
       (cdkDropListDropped)="onColumnDrop($event)"
       class="grid gap-4 flex-1 min-w-0 overflow-x-auto pb-2"
       [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'"
