@@ -1,1 +1,8 @@
-/* Board layout and styles are in template via Tailwind */
+/* Make the board component itself fill its flex parent (the app shell) */
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow: hidden;
+}

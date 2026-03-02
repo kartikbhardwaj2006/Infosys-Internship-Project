@@ -1,0 +1,150 @@
+<div class="auth-page">
+    <!-- Brand -->
+    <div class="auth-brand">
+        <div class="auth-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z" />
+            </svg>
+        </div>
+        <h1 class="auth-title">FlowBoard</h1>
+        <p class="auth-tagline">Create your free account today.</p>
+    </div>
+
+    <!-- Card -->
+    <div class="auth-card">
+        <h2 class="auth-card-title">Create account</h2>
+        <p class="auth-card-sub">Start managing tasks in seconds</p>
+
+        <!-- Error banner -->
+        @if (errorMessage()) {
+        <div class="auth-error" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <!-- Success banner -->
+        @if (successMessage()) {
+        <div class="auth-success" role="status">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd" />
+            </svg>
+            {{ successMessage() }}
+        </div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Email -->
+            <div class="form-group">
+                <label class="form-label" for="signup-email">Gmail Address</label>
+                <input id="signup-email" type="email" formControlName="email" class="form-input"
+                    [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched"
+                    placeholder="you@gmail.com" autocomplete="email" />
+                @if (form.get('email')?.touched) {
+                @if (form.get('email')?.hasError('required')) {
+                <p class="field-error">Email is required.</p>
+                } @else if (form.get('email')?.hasError('email')) {
+                <p class="field-error">Enter a valid email address.</p>
+                } @else if (form.get('email')?.hasError('notGmail')) {
+                <p class="field-error">Only Gmail addresses (@gmail.com) are allowed.</p>
+                }
+                }
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label class="form-label" for="signup-password">Password</label>
+                <div class="input-wrapper">
+                    <input id="signup-password" [type]="showPassword() ? 'text' : 'password'" formControlName="password"
+                        class="form-input"
+                        [class.input-error]="form.get('password')?.invalid && form.get('password')?.touched"
+                        placeholder="Create a strong password" autocomplete="new-password"
+                        (input)="onPasswordInput($event)" />
+                    <button type="button" class="eye-btn" (click)="togglePassword()"
+                        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+                        @if (showPassword()) {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        }
+                    </button>
+                </div>
+
+                <!-- Strength meter -->
+                @if (form.get('password')?.value) {
+                <div class="strength-meter" aria-label="Password strength: {{ strengthLabel() }}">
+                    <div class="strength-bar">
+                        <div class="strength-fill" [class.strength-weak]="passwordStrength() === 'weak'"
+                            [class.strength-medium]="passwordStrength() === 'medium'"
+                            [class.strength-strong]="passwordStrength() === 'strong'"></div>
+                    </div>
+                    <span class="strength-label" [class.text-red-500]="passwordStrength() === 'weak'"
+                        [class.text-yellow-500]="passwordStrength() === 'medium'"
+                        [class.text-green-500]="passwordStrength() === 'strong'">{{ strengthLabel() }}</span>
+                </div>
+                }
+                @if (form.get('password')?.touched && form.get('password')?.hasError('required')) {
+                <p class="field-error">Password is required.</p>
+                }
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label class="form-label" for="signup-confirm">Confirm Password</label>
+                <div class="input-wrapper">
+                    <input id="signup-confirm" [type]="showConfirm() ? 'text' : 'password'"
+                        formControlName="confirmPassword" class="form-input"
+                        [class.input-error]="(form.errors?.['mismatch'] || form.get('confirmPassword')?.hasError('required')) && form.get('confirmPassword')?.touched"
+                        placeholder="Repeat your password" autocomplete="new-password" />
+                    <button type="button" class="eye-btn" (click)="toggleConfirm()"
+                        [attr.aria-label]="showConfirm() ? 'Hide password' : 'Show password'">
+                        @if (showConfirm()) {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        }
+                    </button>
+                </div>
+                @if (form.get('confirmPassword')?.touched) {
+                @if (form.get('confirmPassword')?.hasError('required')) {
+                <p class="field-error">Please confirm your password.</p>
+                } @else if (form.errors?.['mismatch']) {
+                <p class="field-error">Passwords do not match.</p>
+                }
+                }
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Create Account
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account? <a routerLink="/login" class="auth-link">Sign in</a>
+        </p>
+    </div>
+</div>

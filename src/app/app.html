@@ -1,6 +1,6 @@
-<div class="h-screen bg-gray-50 dark:bg-gray-900">
-  <main class="container mx-auto px-4 py-6 max-w-7xl h-full flex flex-col overflow-hidden">
-    <app-kanban-board class="flex-1 min-h-0" />
-  </main>
-  <app-toast />
+<!-- Full-viewport dark-aware shell — wraps every route -->
+<div
+  class="min-h-screen h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-200 overflow-hidden">
+  <router-outlet />
 </div>
+<app-toast />

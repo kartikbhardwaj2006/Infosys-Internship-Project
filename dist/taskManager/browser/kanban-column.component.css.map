@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/kanban-column/kanban-column.component.css"],
+  "sourcesContent": ["/* Column host stretches to fill its grid cell — makes all columns equal height */\r\n:host {\r\n  display: flex;\r\n  flex-direction: column;\r\n  height: 100%;\r\n}\r\n\r\n/* CDK drag preview: stronger shadow, slight scale, rounded to match column cards */\r\n.cdk-drag-preview {\r\n  opacity: 0.98;\r\n  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);\r\n  border-radius: 1rem;\r\n  transform: scale(1.02);\r\n  transition: box-shadow 200ms ease, transform 200ms ease;\r\n}\r\n\r\n.cdk-drag-placeholder {\r\n  opacity: 0.35;\r\n  transition: opacity 200ms ease;\r\n}\r\n\r\n.cdk-drag-animating {\r\n  transition: transform 200ms cubic-bezier(0.25, 0.8, 0.25, 1);\r\n}\r\n\r\n/* Source card while dragging */\r\n.cdk-drag-dragging {\r\n  opacity: 0.55;\r\n  transition: opacity 200ms ease;\r\n}"],
+  "mappings": ";AACA;AACE,WAAA;AACA,kBAAA;AACA,UAAA;AACF;AAGA,CAAA;AACE,WAAA;AACA,cAAA,EAAA,KAAA,KAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA,KAAA,EAAA,EAAA,IAAA,KAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;AACA,iBAAA;AACA,aAAA,MAAA;AACA,cAAA,WAAA,MAAA,IAAA,EAAA,UAAA,MAAA;AACF;AAEA,CAAA;AACE,WAAA;AACA,cAAA,QAAA,MAAA;AACF;AAEA,CAAA;AACE,cAAA,UAAA,MAAA,aAAA,IAAA,EAAA,GAAA,EAAA,IAAA,EAAA;AACF;AAGA,CAAA;AACE,WAAA;AACA,cAAA,QAAA,MAAA;AACF;",
+  "names": []
+}

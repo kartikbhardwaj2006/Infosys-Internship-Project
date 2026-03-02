@@ -6,10 +6,12 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { ColumnService } from '../../services/column.service';
 import { ThemeService } from '../../services/theme.service';
 import { ToastService } from '../../services/toast.service';
+import { AuthService } from '../../services/auth.service';
 import { Task, Column, ColumnDefinition } from '../../models/task.model';
 import { KanbanColumnComponent } from '../kanban-column/kanban-column.component';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
@@ -36,6 +38,8 @@ export class KanbanBoardComponent {
   private columnService = inject(ColumnService);
   private themeService = inject(ThemeService);
   private toast = inject(ToastService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   /** Today (normalized to midnight) for efficient date comparisons. */
   private readonly today = (() => {
@@ -60,6 +64,9 @@ export class KanbanBoardComponent {
   private allTasks = this.taskService.tasks;
   /** Raw column definitions (id + title), also used for column drag-drop data. */
   readonly columnDefs = this.columnService.columns;
+
+  /** Current user display info */
+  readonly currentUser = this.authService.currentUser;
 
   private filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
@@ -287,35 +294,54 @@ export class KanbanBoardComponent {
     return this.taskService.getTasksByColumnId(data.columnId).length;
   }
 
-  downloadAllTasks(): void {
-    const tasks = this.allTasks() ?? [];
-    this.downloadAsJson(tasks, 'tasks-all.json');
-    this.toast.info('Downloaded all tasks.');
+  // ─── Logout ───────────────────────────────────────────────────────────────
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    this.toast.success('Signed out successfully.');
   }
 
+  // ─── TXT Download (Feature 7) ─────────────────────────────────────────────
   downloadFilteredTasks(): void {
     const tasks = this.filteredTasks() ?? [];
-    const filename =
-      this.dateFilter() === 'all' && !this.searchQuery().trim()
-        ? 'tasks-all.json'
-        : 'tasks-filtered.json';
-    this.downloadAsJson(tasks, filename);
-    this.toast.info('Downloaded filtered tasks.');
+    const cols = this.columnDefs();
+    this.downloadAsTxt(tasks, cols, 'flowboard-tasks.txt');
+    this.toast.info('Downloaded tasks as .txt');
   }
 
   downloadColumnTasks(columnId: string, columnTitle: string): void {
     const tasks = this.taskService.getTasksByColumnId(columnId);
-    const safeId = columnId.toLowerCase().replace(/\s+/g, '-');
-    const filename = `tasks-${safeId}.json`;
-    this.downloadAsJson(tasks, filename);
+    const col = this.columnService.getColumnById(columnId);
+    this.downloadAsTxt(tasks, col ? [col] : [], 'flowboard-tasks.txt');
     this.toast.info(`Downloaded tasks for "${columnTitle}".`);
   }
 
-  private downloadAsJson(data: unknown, filename: string): void {
+  private downloadAsTxt(tasks: Task[], cols: ColumnDefinition[], filename: string): void {
     try {
-      const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: 'application/json',
-      });
+      const lines: string[] = [];
+
+      if (cols.length === 0) {
+        // Fallback: no column info
+        for (const t of tasks) {
+          const due = t.dueDate ?? 'N/A';
+          lines.push(`* ${t.title} (${t.priority}) - Due: ${due}`);
+        }
+      } else {
+        for (const col of cols) {
+          const colTasks = tasks.filter((t) => t.columnId === col.id);
+          if (colTasks.length === 0) continue;
+          lines.push(`=== ${col.title.toUpperCase()} ===`);
+          lines.push('');
+          for (const t of colTasks) {
+            const due = t.dueDate ?? 'N/A';
+            lines.push(`* ${t.title} (${t.priority}) - Due: ${due}`);
+          }
+          lines.push('');
+        }
+      }
+
+      const content = lines.join('\n').trim();
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = url;
@@ -324,7 +350,6 @@ export class KanbanBoardComponent {
       URL.revokeObjectURL(url);
     } catch (e) {
       this.toast.error('Unable to download tasks.');
-      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

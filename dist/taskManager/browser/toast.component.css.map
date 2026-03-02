@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/toast/toast.component.css"],
+  "sourcesContent": ["@keyframes animate-in {\r\n  from {\r\n    opacity: 0;\r\n    transform: translateY(8px);\r\n  }\r\n  to {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n  }\r\n}\r\n\r\n.animate-in {\r\n  animation: animate-in 0.2s ease-out;\r\n}\r\n"],
+  "mappings": ";AAAA,WAAA;AACE;AACE,aAAA;AACA,eAAA,WAAA;AACF;AACA;AACE,aAAA;AACA,eAAA,WAAA;AACF;AACF;AAEA,CAXA;AAYE,aAAA,WAAA,KAAA;AACF;",
+  "names": []
+}

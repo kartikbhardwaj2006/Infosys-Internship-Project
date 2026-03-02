@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/kanban-board/kanban-board.component.css"],
+  "sourcesContent": ["/* Make the board component itself fill its flex parent (the app shell) */\r\n:host {\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex: 1 1 0%;\r\n    min-height: 0;\r\n    overflow: hidden;\r\n}"],
+  "mappings": ";AACA;AACI,WAAA;AACA,kBAAA;AACA,QAAA,EAAA,EAAA;AACA,cAAA;AACA,YAAA;AACJ;",
+  "names": []
+}

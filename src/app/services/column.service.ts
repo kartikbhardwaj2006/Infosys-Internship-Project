@@ -1,7 +1,8 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { ColumnDefinition } from '../models/task.model';
+import { AuthService } from './auth.service';
 
-const STORAGE_KEY = 'kartik_task_manager_columns';
+const LEGACY_KEY = 'kartik_task_manager_columns';
 
 /** Default columns when none are stored (backward compatibility). */
 const DEFAULT_COLUMNS: ColumnDefinition[] = [
@@ -14,6 +15,13 @@ const DEFAULT_COLUMNS: ColumnDefinition[] = [
   providedIn: 'root',
 })
 export class ColumnService {
+  private auth = inject(AuthService);
+
+  private get storageKey(): string {
+    const user = this.auth.currentUser();
+    return user ? `flowboard_columns_${user.id}` : LEGACY_KEY;
+  }
+
   private columnsSignal = signal<ColumnDefinition[]>(this.loadFromStorage());
 
   /** Ordered list of column definitions (id, title). */
@@ -21,6 +29,11 @@ export class ColumnService {
 
   /** All column ids in order (for CDK connected drop lists). */
   readonly columnIds = computed(() => this.columnsSignal().map((c) => c.id));
+
+  // ─── Reload signal data from the current user's storage key ───────────────
+  reloadForUser(): void {
+    this.columnsSignal.set(this.loadFromStorage());
+  }
 
   getColumnById(id: string): ColumnDefinition | undefined {
     return this.columnsSignal().find((c) => c.id === id);
@@ -58,7 +71,7 @@ export class ColumnService {
 
   private loadFromStorage(): ColumnDefinition[] {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem(this.storageKey);
       if (!raw) return [...DEFAULT_COLUMNS];
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed) || parsed.length === 0) return [...DEFAULT_COLUMNS];
@@ -70,7 +83,7 @@ export class ColumnService {
 
   private saveToStorage(): void {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.columnsSignal()));
+      localStorage.setItem(this.storageKey, JSON.stringify(this.columnsSignal()));
     } catch (e) {
       console.warn('Failed to save columns to localStorage', e);
     }

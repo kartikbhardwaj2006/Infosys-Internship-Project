@@ -1,15 +1,28 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { Task } from '../models/task.model';
+import { AuthService } from './auth.service';
 
-const STORAGE_KEY = 'kartik_task_manager_tasks';
+const LEGACY_KEY = 'kartik_task_manager_tasks';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
+  private auth = inject(AuthService);
+
+  private get storageKey(): string {
+    const user = this.auth.currentUser();
+    return user ? `flowboard_tasks_${user.id}` : LEGACY_KEY;
+  }
+
   private tasksSignal = signal<Task[]>(this.loadFromStorage());
 
   readonly tasks = this.tasksSignal.asReadonly();
+
+  // ─── Reload signal data from the current user's storage key ───────────────
+  reloadForUser(): void {
+    this.tasksSignal.set(this.loadFromStorage());
+  }
 
   getTaskById(id: string): Task | undefined {
     return this.tasksSignal().find((t) => t.id === id);
@@ -69,11 +82,11 @@ export class TaskService {
 
   private loadFromStorage(): Task[] {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem(this.storageKey);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) return [];
-      // Migrate old tasks: if they have status but no columnId, set columnId = status (default column ids)
+      // Migrate old tasks: if they have status but no columnId, set columnId = status
       return parsed.map((t: Task & { status?: string }) => {
         if (t.columnId) return t as Task;
         const columnId = (t as unknown as { status?: string }).status ?? 'todo';
@@ -86,7 +99,7 @@ export class TaskService {
 
   private saveToStorage(): void {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tasksSignal()));
+      localStorage.setItem(this.storageKey, JSON.stringify(this.tasksSignal()));
     } catch (e) {
       console.warn('Failed to save tasks to localStorage', e);
     }

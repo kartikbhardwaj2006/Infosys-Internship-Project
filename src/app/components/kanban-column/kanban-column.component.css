@@ -1,3 +1,10 @@
+/* Column host stretches to fill its grid cell — makes all columns equal height */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 /* CDK drag preview: stronger shadow, slight scale, rounded to match column cards */
 .cdk-drag-preview {
   opacity: 0.98;
