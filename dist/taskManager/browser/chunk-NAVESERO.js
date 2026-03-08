@@ -8,7 +8,7 @@ import {
   setClassMetadata,
   signal,
   ɵɵdefineInjectable
-} from "./chunk-A3CK35KJ.js";
+} from "./chunk-XGUUYFSI.js";
 
 // src/app/services/task.service.ts
 var LEGACY_KEY = "kartik_task_manager_tasks";
@@ -191,4 +191,4 @@ export {
   TaskService,
   ColumnService
 };
-//# sourceMappingURL=chunk-HV64NJFX.js.map
+//# sourceMappingURL=chunk-NAVESERO.js.map

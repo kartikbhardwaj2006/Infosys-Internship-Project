@@ -6,7 +6,7 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { ColumnService } from '../../services/column.service';
 import { ThemeService } from '../../services/theme.service';
@@ -29,6 +29,7 @@ type DateFilter = 'all' | 'today' | 'overdue' | 'upcoming';
     KanbanColumnComponent,
     TaskDialogComponent,
     AddColumnDialogComponent,
+    RouterLink,
   ],
   templateUrl: './kanban-board.component.html',
   styleUrl: './kanban-board.component.css',
@@ -67,6 +68,23 @@ export class KanbanBoardComponent {
 
   /** Current user display info */
   readonly currentUser = this.authService.currentUser;
+
+  /** Total unfiltered task count — used to calculate column progress percentages. */
+  readonly allTaskCount = computed(() => this.allTasks().length);
+
+  /** User display name: prefers name field, falls back to email prefix. */
+  readonly displayName = computed(() => {
+    const u = this.currentUser();
+    if (!u) return '';
+    return u.name || u.email.split('@')[0];
+  });
+
+  /** Avatar initial from name or email. */
+  readonly avatarInitial = computed(() => {
+    const u = this.currentUser();
+    if (!u) return '?';
+    return (u.name || u.email)[0].toUpperCase();
+  });
 
   private filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();

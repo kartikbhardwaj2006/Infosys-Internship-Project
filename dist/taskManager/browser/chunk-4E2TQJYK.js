@@ -1,10 +1,7 @@
 import {
-  ToastService
-} from "./chunk-YNJAT72I.js";
-import {
   ColumnService,
   TaskService
-} from "./chunk-HV64NJFX.js";
+} from "./chunk-NAVESERO.js";
 import {
   DefaultValueAccessor,
   FormsModule,
@@ -18,7 +15,13 @@ import {
   SelectControlValueAccessor,
   ɵNgNoValidate,
   ɵNgSelectMultipleOption
-} from "./chunk-TV45THFO.js";
+} from "./chunk-ZCCPRT6D.js";
+import {
+  ThemeService
+} from "./chunk-NAFCB5BB.js";
+import {
+  ToastService
+} from "./chunk-E33ZDMZZ.js";
 import {
   APP_ID,
   ApplicationRef,
@@ -49,6 +52,7 @@ import {
   Renderer2,
   RendererFactory2,
   Router,
+  RouterLink,
   Subject,
   Subscription,
   TemplateRef,
@@ -132,7 +136,7 @@ import {
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2,
   ɵɵviewQuery
-} from "./chunk-A3CK35KJ.js";
+} from "./chunk-XGUUYFSI.js";
 
 // node_modules/@angular/cdk/fesm2022/_shadow-dom-chunk.mjs
 var shadowDomIsSupported;
@@ -5177,62 +5181,6 @@ var DragDropModule = class _DragDropModule {
   }], null, null);
 })();
 
-// src/app/services/theme.service.ts
-var STORAGE_KEY = "kartik_task_manager_theme";
-var ThemeService = class _ThemeService {
-  /** Current theme; default is light. Restored from LocalStorage on init. */
-  theme = signal(this.loadStoredTheme(), ...ngDevMode ? [{ debugName: "theme" }] : []);
-  constructor() {
-    effect(() => {
-      this.applyTheme(this.theme());
-    });
-  }
-  toggleTheme() {
-    this.theme.update((current) => current === "light" ? "dark" : "light");
-    this.persistTheme(this.theme());
-  }
-  setTheme(theme) {
-    this.theme.set(theme);
-    this.persistTheme(theme);
-  }
-  applyTheme(theme) {
-    const html = document.documentElement;
-    if (theme === "dark") {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }
-  loadStoredTheme() {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "dark" || stored === "light")
-        return stored;
-    } catch {
-    }
-    return "light";
-  }
-  persistTheme(theme) {
-    try {
-      localStorage.setItem(STORAGE_KEY, theme);
-    } catch (e) {
-      console.warn("Failed to persist theme", e);
-    }
-  }
-  static \u0275fac = function ThemeService_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ThemeService)();
-  };
-  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _ThemeService, factory: _ThemeService.\u0275fac, providedIn: "root" });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThemeService, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
-})();
-
 // src/app/components/task-card/task-card.component.ts
 var _c02 = (a0, a1) => [a0, a1];
 function TaskCardComponent_Conditional_11_Template(rf, ctx) {
@@ -5443,7 +5391,7 @@ var _forTrack0 = ($index, $item) => $item.id;
 function KanbanColumnComponent_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 11);
+    \u0275\u0275elementStart(0, "button", 13);
     \u0275\u0275listener("click", function KanbanColumnComponent_Conditional_10_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -5451,26 +5399,26 @@ function KanbanColumnComponent_Conditional_10_Template(rf, ctx) {
     });
     \u0275\u0275text(1, " Clear ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "button", 12);
+    \u0275\u0275elementStart(2, "button", 14);
     \u0275\u0275listener("click", function KanbanColumnComponent_Conditional_10_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.deleteColumn.emit());
     });
-    \u0275\u0275elementStart(3, "span", 13);
+    \u0275\u0275elementStart(3, "span", 15);
     \u0275\u0275text(4, "\u2715");
     \u0275\u0275elementEnd()();
   }
 }
-function KanbanColumnComponent_For_13_Template(rf, ctx) {
+function KanbanColumnComponent_For_15_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 9)(1, "app-task-card", 14);
-    \u0275\u0275listener("onEdit", function KanbanColumnComponent_For_13_Template_app_task_card_onEdit_1_listener($event) {
+    \u0275\u0275elementStart(0, "div", 11)(1, "app-task-card", 16);
+    \u0275\u0275listener("onEdit", function KanbanColumnComponent_For_15_Template_app_task_card_onEdit_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.editTask.emit($event));
-    })("onDelete", function KanbanColumnComponent_For_13_Template_app_task_card_onDelete_1_listener($event) {
+    })("onDelete", function KanbanColumnComponent_For_15_Template_app_task_card_onDelete_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.deleteTask.emit($event));
@@ -5484,15 +5432,15 @@ function KanbanColumnComponent_For_13_Template(rf, ctx) {
     \u0275\u0275property("task", task_r4);
   }
 }
-function KanbanColumnComponent_ForEmpty_14_Template(rf, ctx) {
+function KanbanColumnComponent_ForEmpty_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 10);
+    \u0275\u0275elementStart(0, "div", 12);
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(1, "svg", 15);
-    \u0275\u0275element(2, "path", 16);
+    \u0275\u0275elementStart(1, "svg", 17);
+    \u0275\u0275element(2, "path", 18);
     \u0275\u0275elementEnd();
     \u0275\u0275namespaceHTML();
-    \u0275\u0275elementStart(3, "p", 17);
+    \u0275\u0275elementStart(3, "p", 19);
     \u0275\u0275text(4, " No tasks yet. Drag one here. ");
     \u0275\u0275elementEnd()();
   }
@@ -5501,10 +5449,17 @@ var KanbanColumnComponent = class _KanbanColumnComponent {
   columnId = input.required(...ngDevMode ? [{ debugName: "columnId" }] : []);
   title = input.required(...ngDevMode ? [{ debugName: "title" }] : []);
   tasks = input.required(...ngDevMode ? [{ debugName: "tasks" }] : []);
+  /** Total tasks across ALL columns (for percentage calculation). */
+  totalTasks = input(0, ...ngDevMode ? [{ debugName: "totalTasks" }] : []);
   /** All column ids for CDK drop list connection. */
   connectedListIds = input([], ...ngDevMode ? [{ debugName: "connectedListIds" }] : []);
   /** When false, hide the delete column button (e.g. last column). */
   canDelete = input(true, ...ngDevMode ? [{ debugName: "canDelete" }] : []);
+  /** Percentage of total tasks in this column (0–100). */
+  percentage = computed(() => {
+    const total = this.totalTasks();
+    return total === 0 ? 0 : Math.round(this.tasks().length / total * 100);
+  }, ...ngDevMode ? [{ debugName: "percentage" }] : []);
   dropped = output();
   editTask = output();
   deleteTask = output();
@@ -5514,7 +5469,7 @@ var KanbanColumnComponent = class _KanbanColumnComponent {
   static \u0275fac = function KanbanColumnComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _KanbanColumnComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KanbanColumnComponent, selectors: [["app-kanban-column"]], inputs: { columnId: [1, "columnId"], title: [1, "title"], tasks: [1, "tasks"], connectedListIds: [1, "connectedListIds"], canDelete: [1, "canDelete"] }, outputs: { dropped: "dropped", editTask: "editTask", deleteTask: "deleteTask", deleteColumn: "deleteColumn", clearColumn: "clearColumn", downloadColumn: "downloadColumn" }, ngContentSelectors: _c03, decls: 16, vars: 7, consts: [["cdkDropList", "", 1, "rounded-2xl", "bg-white", "dark:bg-gray-800", "border", "border-gray-200", "dark:border-gray-700", "shadow-sm", "hover:shadow-md", "min-h-[280px]", "h-full", "flex", "flex-col", "p-5", "transition-shadow", "duration-200", 3, "cdkDropListDropped", "id", "cdkDropListData", "cdkDropListConnectedTo"], [1, "flex", "items-center", "justify-between", "gap-3", "pb-3", "mb-3", "border-b", "border-gray-100", "dark:border-gray-700/80"], [1, "font-semibold", "text-gray-900", "dark:text-gray-100", "text-sm", "tracking-tight", "truncate"], [1, "ml-1", "text-xs", "font-normal", "text-gray-500", "dark:text-gray-400"], [1, "flex", "items-center", "gap-1.5", "shrink-0"], ["type", "button", "aria-label", "Download tasks in column", 1, "p-1.5", "rounded-lg", "text-gray-400", "dark:text-gray-500", "hover:text-blue-600", "dark:hover:text-blue-400", "hover:bg-blue-50/60", "dark:hover:bg-blue-900/20", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500/30", "transition-colors", "duration-200", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", 1, "h-4", "w-4"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4"], [1, "flex-1", "space-y-3", "overflow-y-auto", "pr-1", "custom-column-scroll"], ["cdkDrag", "", 1, "cdk-drag-handle", 3, "cdkDragData"], [1, "flex", "flex-col", "items-center", "justify-center", "py-10", "px-5", "rounded-xl", "bg-gray-50/50", "dark:bg-gray-800/50", "border-2", "border-dashed", "border-gray-200", "dark:border-gray-700", "min-h-[140px]"], ["type", "button", "aria-label", "Clear all tasks in column", 1, "px-2", "py-1", "rounded-lg", "text-[11px]", "font-medium", "text-amber-700", "dark:text-amber-300", "bg-amber-50/80", "dark:bg-amber-900/30", "hover:bg-amber-100", "dark:hover:bg-amber-900/50", "focus:outline-none", "focus:ring-2", "focus:ring-amber-500/40", "transition-colors", "duration-200", 3, "click"], ["type", "button", "aria-label", "Delete column", 1, "p-1.5", "rounded-lg", "text-gray-400", "dark:text-gray-500", "hover:text-red-600", "dark:hover:text-red-400", "hover:bg-red-50", "dark:hover:bg-red-900/20", "focus:outline-none", "focus:ring-2", "focus:ring-red-500/20", "transition-colors", "duration-200", 3, "click"], ["aria-hidden", "true"], [3, "onEdit", "onDelete", "task"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", "aria-hidden", "true", 1, "h-8", "w-8", "text-gray-300", "dark:text-gray-600", "mb-3"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "1.5", "d", "M4 6h16M4 10h16M4 14h16M4 18h7"], [1, "text-sm", "text-gray-500", "dark:text-gray-400", "text-center"]], template: function KanbanColumnComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KanbanColumnComponent, selectors: [["app-kanban-column"]], inputs: { columnId: [1, "columnId"], title: [1, "title"], tasks: [1, "tasks"], totalTasks: [1, "totalTasks"], connectedListIds: [1, "connectedListIds"], canDelete: [1, "canDelete"] }, outputs: { dropped: "dropped", editTask: "editTask", deleteTask: "deleteTask", deleteColumn: "deleteColumn", clearColumn: "clearColumn", downloadColumn: "downloadColumn" }, ngContentSelectors: _c03, decls: 18, vars: 11, consts: [["cdkDropList", "", 1, "rounded-2xl", "bg-white", "dark:bg-gray-800", "border", "border-gray-200", "dark:border-gray-700", "shadow-sm", "hover:shadow-md", "min-h-[280px]", "h-full", "flex", "flex-col", "p-5", "transition-shadow", "duration-200", 3, "cdkDropListDropped", "id", "cdkDropListData", "cdkDropListConnectedTo"], [1, "flex", "items-center", "justify-between", "gap-3", "pb-2", "mb-1", "border-b", "border-gray-100", "dark:border-gray-700/80"], [1, "font-semibold", "text-gray-900", "dark:text-gray-100", "text-sm", "tracking-tight", "truncate"], [1, "ml-1", "text-xs", "font-normal", "text-gray-500", "dark:text-gray-400"], [1, "flex", "items-center", "gap-1.5", "shrink-0"], ["type", "button", "aria-label", "Download tasks in column", 1, "p-1.5", "rounded-lg", "text-gray-400", "dark:text-gray-500", "hover:text-blue-600", "dark:hover:text-blue-400", "hover:bg-blue-50/60", "dark:hover:bg-blue-900/20", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500/30", "transition-colors", "duration-200", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", 1, "h-4", "w-4"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4"], [1, "mb-3", "h-1.5", "w-full", "rounded-full", "bg-gray-100", "dark:bg-gray-700", "overflow-hidden"], ["role", "progressbar", "aria-valuemin", "0", "aria-valuemax", "100", 1, "h-full", "rounded-full", "bg-gradient-to-r", "from-blue-400", "to-indigo-500", "transition-all", "duration-500", "ease-out"], [1, "flex-1", "space-y-3", "overflow-y-auto", "pr-1", "custom-column-scroll"], ["cdkDrag", "", 1, "cdk-drag-handle", 3, "cdkDragData"], [1, "flex", "flex-col", "items-center", "justify-center", "py-10", "px-5", "rounded-xl", "bg-gray-50/50", "dark:bg-gray-800/50", "border-2", "border-dashed", "border-gray-200", "dark:border-gray-700", "min-h-[140px]"], ["type", "button", "aria-label", "Clear all tasks in column", 1, "px-2", "py-1", "rounded-lg", "text-[11px]", "font-medium", "text-amber-700", "dark:text-amber-300", "bg-amber-50/80", "dark:bg-amber-900/30", "hover:bg-amber-100", "dark:hover:bg-amber-900/50", "focus:outline-none", "focus:ring-2", "focus:ring-amber-500/40", "transition-colors", "duration-200", 3, "click"], ["type", "button", "aria-label", "Delete column", 1, "p-1.5", "rounded-lg", "text-gray-400", "dark:text-gray-500", "hover:text-red-600", "dark:hover:text-red-400", "hover:bg-red-50", "dark:hover:bg-red-900/20", "focus:outline-none", "focus:ring-2", "focus:ring-red-500/20", "transition-colors", "duration-200", 3, "click"], ["aria-hidden", "true"], [3, "onEdit", "onDelete", "task"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", "aria-hidden", "true", 1, "h-8", "w-8", "text-gray-300", "dark:text-gray-600", "mb-3"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "1.5", "d", "M4 6h16M4 10h16M4 14h16M4 18h7"], [1, "text-sm", "text-gray-500", "dark:text-gray-400", "text-center"]], template: function KanbanColumnComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275projectionDef();
       \u0275\u0275elementStart(0, "div", 0);
@@ -5538,9 +5493,12 @@ var KanbanColumnComponent = class _KanbanColumnComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275namespaceHTML();
       \u0275\u0275elementStart(11, "div", 8);
-      \u0275\u0275repeaterCreate(12, KanbanColumnComponent_For_13_Template, 2, 2, "div", 9, _forTrack0, false, KanbanColumnComponent_ForEmpty_14_Template, 5, 0, "div", 10);
+      \u0275\u0275element(12, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275projection(15);
+      \u0275\u0275elementStart(13, "div", 10);
+      \u0275\u0275repeaterCreate(14, KanbanColumnComponent_For_15_Template, 2, 2, "div", 11, _forTrack0, false, KanbanColumnComponent_ForEmpty_16_Template, 5, 0, "div", 12);
+      \u0275\u0275elementEnd();
+      \u0275\u0275projection(17);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -5548,9 +5506,12 @@ var KanbanColumnComponent = class _KanbanColumnComponent {
       \u0275\u0275advance(3);
       \u0275\u0275textInterpolate1(" ", ctx.title(), " ");
       \u0275\u0275advance(2);
-      \u0275\u0275textInterpolate1("(", ctx.tasks().length, ")");
+      \u0275\u0275textInterpolate2("(", ctx.tasks().length, ") \u2013 ", ctx.percentage(), "%");
       \u0275\u0275advance(5);
       \u0275\u0275conditional(ctx.canDelete() ? 10 : -1);
+      \u0275\u0275advance(2);
+      \u0275\u0275styleProp("width", ctx.percentage(), "%");
+      \u0275\u0275attribute("aria-valuenow", ctx.percentage());
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.tasks());
     }
@@ -5559,8 +5520,8 @@ var KanbanColumnComponent = class _KanbanColumnComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(KanbanColumnComponent, [{
     type: Component,
-    args: [{ selector: "app-kanban-column", standalone: true, imports: [CdkDropList, CdkDrag, TaskCardComponent], template: '<div\r\n  cdkDropList\r\n  [id]="columnId()"\r\n  [cdkDropListData]="tasks()"\r\n  [cdkDropListConnectedTo]="connectedListIds()"\r\n  (cdkDropListDropped)="dropped.emit($event)"\r\n  class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md min-h-[280px] h-full flex flex-col p-5 transition-shadow duration-200"\r\n>\r\n  <div class="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-gray-100 dark:border-gray-700/80">\r\n    <h2 class="font-semibold text-gray-900 dark:text-gray-100 text-sm tracking-tight truncate">\r\n      {{ title() }}\r\n      <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">({{ tasks().length }})</span>\r\n    </h2>\r\n    <div class="flex items-center gap-1.5 shrink-0">\r\n      <button\r\n        type="button"\r\n        (click)="downloadColumn.emit()"\r\n        class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/20 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-colors duration-200"\r\n        aria-label="Download tasks in column"\r\n      >\r\n        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">\r\n          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4" />\r\n        </svg>\r\n      </button>\r\n      @if (canDelete()) {\r\n        <button\r\n          type="button"\r\n          (click)="clearColumn.emit()"\r\n          class="px-2 py-1 rounded-lg text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50/80 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-colors duration-200"\r\n          aria-label="Clear all tasks in column"\r\n        >\r\n          Clear\r\n        </button>\r\n        <button\r\n          type="button"\r\n          (click)="deleteColumn.emit()"\r\n          class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-colors duration-200"\r\n          aria-label="Delete column"\r\n        >\r\n          <span aria-hidden="true">\u2715</span>\r\n        </button>\r\n      }\r\n    </div>\r\n  </div>\r\n  <div class="flex-1 space-y-3 overflow-y-auto pr-1 custom-column-scroll">\r\n    @for (task of tasks(); track task.id) {\r\n      <div cdkDrag [cdkDragData]="task" class="cdk-drag-handle">\r\n        <app-task-card\r\n          [task]="task"\r\n          (onEdit)="editTask.emit($event)"\r\n          (onDelete)="deleteTask.emit($event)"\r\n        />\r\n      </div>\r\n    }\r\n    @empty {\r\n      <div class="flex flex-col items-center justify-center py-10 px-5 rounded-xl bg-gray-50/50 dark:bg-gray-800/50 border-2 border-dashed border-gray-200 dark:border-gray-700 min-h-[140px]">\r\n        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300 dark:text-gray-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">\r\n          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h7" />\r\n        </svg>\r\n        <p class="text-sm text-gray-500 dark:text-gray-400 text-center">\r\n          No tasks yet. Drag one here.\r\n        </p>\r\n      </div>\r\n    }\r\n  </div>\r\n  <ng-content />\r\n</div>\r\n', styles: ["/* src/app/components/kanban-column/kanban-column.component.css */\n:host {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.cdk-drag-preview {\n  opacity: 0.98;\n  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);\n  border-radius: 1rem;\n  transform: scale(1.02);\n  transition: box-shadow 200ms ease, transform 200ms ease;\n}\n.cdk-drag-placeholder {\n  opacity: 0.35;\n  transition: opacity 200ms ease;\n}\n.cdk-drag-animating {\n  transition: transform 200ms cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n.cdk-drag-dragging {\n  opacity: 0.55;\n  transition: opacity 200ms ease;\n}\n/*# sourceMappingURL=kanban-column.component.css.map */\n"] }]
-  }], null, { columnId: [{ type: Input, args: [{ isSignal: true, alias: "columnId", required: true }] }], title: [{ type: Input, args: [{ isSignal: true, alias: "title", required: true }] }], tasks: [{ type: Input, args: [{ isSignal: true, alias: "tasks", required: true }] }], connectedListIds: [{ type: Input, args: [{ isSignal: true, alias: "connectedListIds", required: false }] }], canDelete: [{ type: Input, args: [{ isSignal: true, alias: "canDelete", required: false }] }], dropped: [{ type: Output, args: ["dropped"] }], editTask: [{ type: Output, args: ["editTask"] }], deleteTask: [{ type: Output, args: ["deleteTask"] }], deleteColumn: [{ type: Output, args: ["deleteColumn"] }], clearColumn: [{ type: Output, args: ["clearColumn"] }], downloadColumn: [{ type: Output, args: ["downloadColumn"] }] });
+    args: [{ selector: "app-kanban-column", standalone: true, imports: [CdkDropList, CdkDrag, TaskCardComponent], template: '<div cdkDropList [id]="columnId()" [cdkDropListData]="tasks()" [cdkDropListConnectedTo]="connectedListIds()"\r\n  (cdkDropListDropped)="dropped.emit($event)"\r\n  class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md min-h-[280px] h-full flex flex-col p-5 transition-shadow duration-200">\r\n  <div class="flex items-center justify-between gap-3 pb-2 mb-1 border-b border-gray-100 dark:border-gray-700/80">\r\n    <h2 class="font-semibold text-gray-900 dark:text-gray-100 text-sm tracking-tight truncate">\r\n      {{ title() }}\r\n      <span class="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">({{ tasks().length }}) \u2013 {{ percentage()\r\n        }}%</span>\r\n    </h2>\r\n    <div class="flex items-center gap-1.5 shrink-0">\r\n      <button type="button" (click)="downloadColumn.emit()"\r\n        class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-900/20 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-colors duration-200"\r\n        aria-label="Download tasks in column">\r\n        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">\r\n          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"\r\n            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4m0 0l-4-4m4 4V4" />\r\n        </svg>\r\n      </button>\r\n      @if (canDelete()) {\r\n      <button type="button" (click)="clearColumn.emit()"\r\n        class="px-2 py-1 rounded-lg text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50/80 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-colors duration-200"\r\n        aria-label="Clear all tasks in column">\r\n        Clear\r\n      </button>\r\n      <button type="button" (click)="deleteColumn.emit()"\r\n        class="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-colors duration-200"\r\n        aria-label="Delete column">\r\n        <span aria-hidden="true">\u2715</span>\r\n      </button>\r\n      }\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Progress bar -->\r\n  <div class="mb-3 h-1.5 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">\r\n    <div class="h-full rounded-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-all duration-500 ease-out"\r\n      [style.width.%]="percentage()" role="progressbar" [attr.aria-valuenow]="percentage()" aria-valuemin="0"\r\n      aria-valuemax="100">\r\n    </div>\r\n  </div>\r\n\r\n  <div class="flex-1 space-y-3 overflow-y-auto pr-1 custom-column-scroll">\r\n    @for (task of tasks(); track task.id) {\r\n    <div cdkDrag [cdkDragData]="task" class="cdk-drag-handle">\r\n      <app-task-card [task]="task" (onEdit)="editTask.emit($event)" (onDelete)="deleteTask.emit($event)" />\r\n    </div>\r\n    }\r\n    @empty {\r\n    <div\r\n      class="flex flex-col items-center justify-center py-10 px-5 rounded-xl bg-gray-50/50 dark:bg-gray-800/50 border-2 border-dashed border-gray-200 dark:border-gray-700 min-h-[140px]">\r\n      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300 dark:text-gray-600 mb-3" fill="none"\r\n        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">\r\n        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h7" />\r\n      </svg>\r\n      <p class="text-sm text-gray-500 dark:text-gray-400 text-center">\r\n        No tasks yet. Drag one here.\r\n      </p>\r\n    </div>\r\n    }\r\n  </div>\r\n  <ng-content />\r\n</div>', styles: ["/* src/app/components/kanban-column/kanban-column.component.css */\n:host {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.cdk-drag-preview {\n  opacity: 0.98;\n  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);\n  border-radius: 1rem;\n  transform: scale(1.02);\n  transition: box-shadow 200ms ease, transform 200ms ease;\n}\n.cdk-drag-placeholder {\n  opacity: 0.35;\n  transition: opacity 200ms ease;\n}\n.cdk-drag-animating {\n  transition: transform 200ms cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n.cdk-drag-dragging {\n  opacity: 0.55;\n  transition: opacity 200ms ease;\n}\n/*# sourceMappingURL=kanban-column.component.css.map */\n"] }]
+  }], null, { columnId: [{ type: Input, args: [{ isSignal: true, alias: "columnId", required: true }] }], title: [{ type: Input, args: [{ isSignal: true, alias: "title", required: true }] }], tasks: [{ type: Input, args: [{ isSignal: true, alias: "tasks", required: true }] }], totalTasks: [{ type: Input, args: [{ isSignal: true, alias: "totalTasks", required: false }] }], connectedListIds: [{ type: Input, args: [{ isSignal: true, alias: "connectedListIds", required: false }] }], canDelete: [{ type: Input, args: [{ isSignal: true, alias: "canDelete", required: false }] }], dropped: [{ type: Output, args: ["dropped"] }], editTask: [{ type: Output, args: ["editTask"] }], deleteTask: [{ type: Output, args: ["deleteTask"] }], deleteColumn: [{ type: Output, args: ["deleteColumn"] }], clearColumn: [{ type: Output, args: ["clearColumn"] }], downloadColumn: [{ type: Output, args: ["downloadColumn"] }] });
 })();
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(KanbanColumnComponent, { className: "KanbanColumnComponent", filePath: "src/app/components/kanban-column/kanban-column.component.ts", lineNumber: 13 });
@@ -5961,33 +5922,33 @@ var AddColumnDialogComponent = class _AddColumnDialogComponent {
 
 // src/app/components/kanban-board/kanban-board.component.ts
 var _forTrack03 = ($index, $item) => $item.id;
-function KanbanBoardComponent_Conditional_28_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_35_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 16);
-    \u0275\u0275element(1, "path", 23);
+    \u0275\u0275elementStart(0, "svg", 20);
+    \u0275\u0275element(1, "path", 27);
     \u0275\u0275elementEnd();
   }
 }
-function KanbanBoardComponent_Conditional_29_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_36_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 16);
-    \u0275\u0275element(1, "path", 24);
+    \u0275\u0275elementStart(0, "svg", 20);
+    \u0275\u0275element(1, "path", 28);
     \u0275\u0275elementEnd();
   }
 }
-function KanbanBoardComponent_Conditional_30_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17)(1, "div", 25)(2, "div", 26);
+    \u0275\u0275elementStart(0, "div", 21)(1, "div", 29)(2, "div", 30);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span", 27);
+    \u0275\u0275elementStart(4, "span", 31);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "button", 28);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_30_Template_button_click_6_listener() {
+    \u0275\u0275elementStart(6, "button", 32);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_37_Template_button_click_6_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.logout());
@@ -5998,42 +5959,42 @@ function KanbanBoardComponent_Conditional_30_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.currentUser().email[0].toUpperCase(), " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r1.avatarInitial(), " ");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.currentUser().email, " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r1.displayName() || ctx_r1.currentUser().email, " ");
   }
 }
-function KanbanBoardComponent_For_34_Template(rf, ctx) {
+function KanbanBoardComponent_For_41_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 20)(1, "app-kanban-column", 29);
-    \u0275\u0275listener("dropped", function KanbanBoardComponent_For_34_Template_app_kanban_column_dropped_1_listener($event) {
+    \u0275\u0275elementStart(0, "div", 24)(1, "app-kanban-column", 33);
+    \u0275\u0275listener("dropped", function KanbanBoardComponent_For_41_Template_app_kanban_column_dropped_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onDrop($event));
-    })("editTask", function KanbanBoardComponent_For_34_Template_app_kanban_column_editTask_1_listener($event) {
+    })("editTask", function KanbanBoardComponent_For_41_Template_app_kanban_column_editTask_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.openEditTask($event));
-    })("deleteTask", function KanbanBoardComponent_For_34_Template_app_kanban_column_deleteTask_1_listener($event) {
+    })("deleteTask", function KanbanBoardComponent_For_41_Template_app_kanban_column_deleteTask_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.requestDeleteTask($event));
-    })("deleteColumn", function KanbanBoardComponent_For_34_Template_app_kanban_column_deleteColumn_1_listener() {
+    })("deleteColumn", function KanbanBoardComponent_For_41_Template_app_kanban_column_deleteColumn_1_listener() {
       const col_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.requestDeleteColumn(col_r4.id, col_r4.title));
-    })("clearColumn", function KanbanBoardComponent_For_34_Template_app_kanban_column_clearColumn_1_listener() {
+    })("clearColumn", function KanbanBoardComponent_For_41_Template_app_kanban_column_clearColumn_1_listener() {
       const col_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.requestClearColumn(col_r4.id, col_r4.title));
-    })("downloadColumn", function KanbanBoardComponent_For_34_Template_app_kanban_column_downloadColumn_1_listener() {
+    })("downloadColumn", function KanbanBoardComponent_For_41_Template_app_kanban_column_downloadColumn_1_listener() {
       const col_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.downloadColumnTasks(col_r4.id, col_r4.title));
     });
-    \u0275\u0275elementStart(2, "button", 30);
-    \u0275\u0275listener("click", function KanbanBoardComponent_For_34_Template_button_click_2_listener() {
+    \u0275\u0275elementStart(2, "button", 34);
+    \u0275\u0275listener("click", function KanbanBoardComponent_For_41_Template_button_click_2_listener() {
       const col_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.openAddTask(col_r4.id));
@@ -6046,18 +6007,18 @@ function KanbanBoardComponent_For_34_Template(rf, ctx) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275property("cdkDragData", col_r4);
     \u0275\u0275advance();
-    \u0275\u0275property("columnId", col_r4.id)("title", col_r4.title)("tasks", col_r4.tasks)("connectedListIds", ctx_r1.connectedListIds())("canDelete", ctx_r1.columns().length > 1);
+    \u0275\u0275property("columnId", col_r4.id)("title", col_r4.title)("tasks", col_r4.tasks)("totalTasks", ctx_r1.allTaskCount())("connectedListIds", ctx_r1.connectedListIds())("canDelete", ctx_r1.columns().length > 1);
   }
 }
-function KanbanBoardComponent_Conditional_35_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_42_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-task-dialog", 31);
-    \u0275\u0275listener("saved", function KanbanBoardComponent_Conditional_35_Template_app_task_dialog_saved_0_listener($event) {
+    \u0275\u0275elementStart(0, "app-task-dialog", 35);
+    \u0275\u0275listener("saved", function KanbanBoardComponent_Conditional_42_Template_app_task_dialog_saved_0_listener($event) {
       \u0275\u0275restoreView(_r5);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onTaskDialogSaved($event));
-    })("cancelled", function KanbanBoardComponent_Conditional_35_Template_app_task_dialog_cancelled_0_listener() {
+    })("cancelled", function KanbanBoardComponent_Conditional_42_Template_app_task_dialog_cancelled_0_listener() {
       \u0275\u0275restoreView(_r5);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onTaskDialogCancelled());
@@ -6069,15 +6030,15 @@ function KanbanBoardComponent_Conditional_35_Template(rf, ctx) {
     \u0275\u0275property("task", ctx_r1.editingTask())("mode", ctx_r1.dialogMode())("initialColumnId", ctx_r1.defaultColumnId())("columnOptions", ctx_r1.columns());
   }
 }
-function KanbanBoardComponent_Conditional_36_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_43_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "app-add-column-dialog", 32);
-    \u0275\u0275listener("saved", function KanbanBoardComponent_Conditional_36_Template_app_add_column_dialog_saved_0_listener($event) {
+    \u0275\u0275elementStart(0, "app-add-column-dialog", 36);
+    \u0275\u0275listener("saved", function KanbanBoardComponent_Conditional_43_Template_app_add_column_dialog_saved_0_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onAddColumnSaved($event));
-    })("cancelled", function KanbanBoardComponent_Conditional_36_Template_app_add_column_dialog_cancelled_0_listener() {
+    })("cancelled", function KanbanBoardComponent_Conditional_43_Template_app_add_column_dialog_cancelled_0_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onAddColumnCancelled());
@@ -6085,36 +6046,36 @@ function KanbanBoardComponent_Conditional_36_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function KanbanBoardComponent_Conditional_37_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_44_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 33);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_37_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 37);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_44_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelClearColumn());
     });
-    \u0275\u0275elementStart(1, "div", 34);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_37_Template_div_click_1_listener($event) {
+    \u0275\u0275elementStart(1, "div", 38);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_44_Template_div_click_1_listener($event) {
       \u0275\u0275restoreView(_r7);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275elementStart(2, "h2", 35);
+    \u0275\u0275elementStart(2, "h2", 39);
     \u0275\u0275text(3, "Clear column?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "p", 36);
+    \u0275\u0275elementStart(4, "p", 40);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 37)(7, "button", 38);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_37_Template_button_click_7_listener() {
+    \u0275\u0275elementStart(6, "div", 41)(7, "button", 42);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_44_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.confirmClearColumn());
     });
     \u0275\u0275text(8, " Clear column ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 39);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_37_Template_button_click_9_listener() {
+    \u0275\u0275elementStart(9, "button", 43);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_44_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelClearColumn());
@@ -6128,36 +6089,36 @@ function KanbanBoardComponent_Conditional_37_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(' All tasks in "', ctx_r1.showClearColumnConfirm().columnTitle, '" will be permanently removed from this column. This cannot be undone. ');
   }
 }
-function KanbanBoardComponent_Conditional_38_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_45_Template(rf, ctx) {
   if (rf & 1) {
     const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 33);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_38_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 37);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_45_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r8);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelDeleteTask());
     });
-    \u0275\u0275elementStart(1, "div", 34);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_38_Template_div_click_1_listener($event) {
+    \u0275\u0275elementStart(1, "div", 38);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_45_Template_div_click_1_listener($event) {
       \u0275\u0275restoreView(_r8);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275elementStart(2, "h2", 35);
+    \u0275\u0275elementStart(2, "h2", 39);
     \u0275\u0275text(3, "Delete task?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "p", 36);
+    \u0275\u0275elementStart(4, "p", 40);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 37)(7, "button", 38);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_38_Template_button_click_7_listener() {
+    \u0275\u0275elementStart(6, "div", 41)(7, "button", 42);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_45_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r8);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.confirmDeleteTask());
     });
     \u0275\u0275text(8, " Delete ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 39);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_38_Template_button_click_9_listener() {
+    \u0275\u0275elementStart(9, "button", 43);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_45_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r8);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelDeleteTask());
@@ -6170,9 +6131,9 @@ function KanbanBoardComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(' "', ctx.title, '" will be permanently removed. This cannot be undone. ');
   }
 }
-function KanbanBoardComponent_Conditional_39_Conditional_4_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 36);
+    \u0275\u0275elementStart(0, "p", 40);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -6182,9 +6143,9 @@ function KanbanBoardComponent_Conditional_39_Conditional_4_Template(rf, ctx) {
     \u0275\u0275textInterpolate2(' "', ctx_r1.showDeleteConfirm().columnTitle, '" has ', ctx_r1.getDeleteConfirmTaskCount(), " task(s). They will be moved to another column. ");
   }
 }
-function KanbanBoardComponent_Conditional_39_Conditional_5_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_46_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 36);
+    \u0275\u0275elementStart(0, "p", 40);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -6194,34 +6155,34 @@ function KanbanBoardComponent_Conditional_39_Conditional_5_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(' Are you sure you want to delete "', ctx_r1.showDeleteConfirm().columnTitle, '"? ');
   }
 }
-function KanbanBoardComponent_Conditional_39_Template(rf, ctx) {
+function KanbanBoardComponent_Conditional_46_Template(rf, ctx) {
   if (rf & 1) {
     const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 33);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_39_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 37);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_46_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelDeleteColumn());
     });
-    \u0275\u0275elementStart(1, "div", 34);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_39_Template_div_click_1_listener($event) {
+    \u0275\u0275elementStart(1, "div", 38);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_46_Template_div_click_1_listener($event) {
       \u0275\u0275restoreView(_r9);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275elementStart(2, "h2", 35);
+    \u0275\u0275elementStart(2, "h2", 39);
     \u0275\u0275text(3, "Delete column?");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(4, KanbanBoardComponent_Conditional_39_Conditional_4_Template, 2, 2, "p", 36)(5, KanbanBoardComponent_Conditional_39_Conditional_5_Template, 2, 1, "p", 36);
-    \u0275\u0275elementStart(6, "div", 37)(7, "button", 38);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_39_Template_button_click_7_listener() {
+    \u0275\u0275conditionalCreate(4, KanbanBoardComponent_Conditional_46_Conditional_4_Template, 2, 2, "p", 40)(5, KanbanBoardComponent_Conditional_46_Conditional_5_Template, 2, 1, "p", 40);
+    \u0275\u0275elementStart(6, "div", 41)(7, "button", 42);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_46_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.confirmDeleteColumn());
     });
     \u0275\u0275text(8, " Delete ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 39);
-    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_39_Template_button_click_9_listener() {
+    \u0275\u0275elementStart(9, "button", 43);
+    \u0275\u0275listener("click", function KanbanBoardComponent_Conditional_46_Template_button_click_9_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.cancelDeleteColumn());
@@ -6265,6 +6226,22 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
   columnDefs = this.columnService.columns;
   /** Current user display info */
   currentUser = this.authService.currentUser;
+  /** Total unfiltered task count — used to calculate column progress percentages. */
+  allTaskCount = computed(() => this.allTasks().length, ...ngDevMode ? [{ debugName: "allTaskCount" }] : []);
+  /** User display name: prefers name field, falls back to email prefix. */
+  displayName = computed(() => {
+    const u = this.currentUser();
+    if (!u)
+      return "";
+    return u.name || u.email.split("@")[0];
+  }, ...ngDevMode ? [{ debugName: "displayName" }] : []);
+  /** Avatar initial from name or email. */
+  avatarInitial = computed(() => {
+    const u = this.currentUser();
+    if (!u)
+      return "?";
+    return (u.name || u.email)[0].toUpperCase();
+  }, ...ngDevMode ? [{ debugName: "avatarInitial" }] : []);
   filteredTasks = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
     const filter2 = this.dateFilter();
@@ -6525,7 +6502,7 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
   static \u0275fac = function KanbanBoardComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _KanbanBoardComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KanbanBoardComponent, selectors: [["app-kanban-board"]], decls: 40, vars: 69, consts: [[1, "flex", "flex-col", "h-full", "px-4", "pt-4", "pb-2", "max-w-[1600px]", "w-full", "mx-auto", "overflow-hidden"], [1, "sticky", "top-0", "z-10", "-mx-4", "px-4", "py-4", "mb-6", "-mt-6", "bg-white/80", "dark:bg-gray-900/80", "backdrop-blur-md", "border-b", "border-gray-200", "dark:border-gray-700", "transition-shadow", "duration-200"], [1, "flex", "flex-col", "sm:flex-row", "sm:items-center", "sm:justify-between", "gap-4"], [1, "flex", "flex-col", "gap-1"], [1, "text-2xl", "font-bold", "text-gray-900", "dark:text-gray-100"], [1, "text-sm", "text-gray-500", "dark:text-gray-400"], [1, "flex", "flex-wrap", "items-center", "gap-2", "sm:gap-3"], [1, "flex", "flex-wrap", "items-center", "gap-2"], ["type", "search", "placeholder", "Search tasks by title...", 1, "rounded-xl", "border", "border-gray-300", "dark:border-gray-600", "dark:bg-gray-800", "dark:text-gray-200", "px-3", "py-2", "text-sm", "text-gray-900", "shadow-sm", "focus:border-blue-500", "focus:ring-2", "focus:ring-blue-500/20", "focus:outline-none", "min-w-[200px]", "transition-shadow", "duration-200", 3, "input", "value"], ["role", "radiogroup", "aria-label", "Filter tasks by due date", 1, "flex", "items-center", "gap-1", "rounded-xl", "border", "border-gray-200", "dark:border-gray-700", "bg-gray-50/50", "dark:bg-gray-800/50", "px-2", "py-1"], ["type", "button", 1, "px-2.5", "py-1", "rounded-lg", "text-xs", "font-medium", "transition-colors", 3, "click"], [1, "flex", "items-center", "gap-2", "rounded-xl", "border", "border-gray-200", "dark:border-gray-700", "bg-gray-50/50", "dark:bg-gray-800/50", "p-1"], ["type", "button", 1, "rounded-lg", "border", "border-transparent", "px-3", "py-2", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-white", "dark:hover:bg-gray-700", "hover:shadow-sm", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "bg-blue-500", "px-3", "py-2", "text-sm", "font-medium", "text-white", "hover:bg-blue-600", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "border", "border-gray-300", "dark:border-gray-600", "bg-white/80", "dark:bg-gray-800", "px-3", "py-2", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-700", "hover:shadow-sm", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "p-2", "text-gray-500", "dark:text-gray-400", "hover:bg-white", "dark:hover:bg-gray-700", "hover:text-gray-700", "dark:hover:text-gray-200", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", 1, "h-5", "w-5"], [1, "flex", "items-center", "gap-2", "pl-1"], ["cdkDropListGroup", "", 1, "flex-1", "min-h-0", "min-w-0", "flex", "overflow-hidden"], ["cdkDropList", "", "cdkDropListOrientation", "horizontal", 1, "grid", "gap-4", "flex-1", "min-w-0", "h-full", "overflow-x-auto", "pb-2", "items-stretch", 3, "cdkDropListDropped", "cdkDropListData"], ["cdkDrag", "", 1, "h-full", "cursor-grab", "active:cursor-grabbing", "select-none", 3, "cdkDragData"], [3, "task", "mode", "initialColumnId", "columnOptions"], [1, "fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "p-4", "bg-black/40", "dark:bg-black/60"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"], [1, "flex", "items-center", "gap-2", "rounded-xl", "border", "border-indigo-100", "dark:border-indigo-900/60", "bg-indigo-50/70", "dark:bg-indigo-900/30", "px-3", "py-1.5"], [1, "w-6", "h-6", "rounded-full", "bg-gradient-to-br", "from-blue-500", "to-indigo-600", "flex", "items-center", "justify-center", "text-white", "text-xs", "font-bold", "flex-shrink-0"], [1, "text-xs", "font-medium", "text-indigo-700", "dark:text-indigo-300", "max-w-[130px]", "truncate", "hidden", "sm:block"], ["type", "button", "id", "logout-btn", 1, "rounded-lg", "border", "border-gray-300", "dark:border-gray-600", "bg-white/80", "dark:bg-gray-800", "px-3", "py-2", "text-sm", "font-medium", "text-gray-600", "dark:text-gray-300", "hover:bg-red-50", "dark:hover:bg-red-900/20", "hover:text-red-600", "dark:hover:text-red-400", "hover:border-red-300", "dark:hover:border-red-800", "focus:outline-none", "focus:ring-2", "focus:ring-red-400", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], [3, "dropped", "editTask", "deleteTask", "deleteColumn", "clearColumn", "downloadColumn", "columnId", "title", "tasks", "connectedListIds", "canDelete"], ["type", "button", 1, "mt-2", "w-full", "text-sm", "text-gray-500", "dark:text-gray-400", "hover:text-blue-600", "dark:hover:text-blue-400", "hover:bg-gray-50", "dark:hover:bg-gray-700/50", "border", "border-dashed", "border-gray-300", "dark:border-gray-600", "rounded-xl", "py-2.5", "transition-colors", "duration-200", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500/20", 3, "click"], [3, "saved", "cancelled", "task", "mode", "initialColumnId", "columnOptions"], [3, "saved", "cancelled"], [1, "fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "p-4", "bg-black/40", "dark:bg-black/60", 3, "click"], [1, "bg-white", "dark:bg-gray-800", "rounded-2xl", "shadow-lg", "w-full", "max-w-sm", "p-6", 3, "click"], [1, "text-lg", "font-semibold", "text-gray-900", "dark:text-gray-200", "mb-2"], [1, "text-sm", "text-gray-600", "dark:text-gray-400", "mb-4"], [1, "flex", "gap-3"], ["type", "button", 1, "flex-1", "rounded-xl", "bg-red-500", "px-4", "py-2.5", "text-sm", "font-medium", "text-white", "hover:bg-red-600", "focus:outline-none", "focus:ring-2", "focus:ring-red-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-800", "transition-colors", "duration-200", 3, "click"], ["type", "button", 1, "rounded-xl", "border", "border-gray-300", "dark:border-gray-600", "bg-white", "dark:bg-gray-700", "px-4", "py-2.5", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-600", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-800", "transition-colors", "duration-200", 3, "click"]], template: function KanbanBoardComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _KanbanBoardComponent, selectors: [["app-kanban-board"]], decls: 47, vars: 69, consts: [[1, "flex", "flex-col", "h-full", "px-4", "pt-4", "pb-2", "max-w-[1600px]", "w-full", "mx-auto", "overflow-hidden"], [1, "sticky", "top-0", "z-10", "-mx-4", "px-4", "py-4", "mb-6", "-mt-6", "bg-white/80", "dark:bg-gray-900/80", "backdrop-blur-md", "border-b", "border-gray-200", "dark:border-gray-700", "transition-shadow", "duration-200"], [1, "flex", "flex-col", "sm:flex-row", "sm:items-center", "sm:justify-between", "gap-4"], [1, "flex", "flex-col", "gap-1"], [1, "text-2xl", "font-bold", "text-gray-900", "dark:text-gray-100"], [1, "text-sm", "text-gray-500", "dark:text-gray-400"], [1, "flex", "flex-wrap", "items-center", "gap-2", "sm:gap-3"], [1, "flex", "flex-wrap", "items-center", "gap-2"], ["type", "search", "placeholder", "Search tasks by title...", 1, "rounded-xl", "border", "border-gray-300", "dark:border-gray-600", "dark:bg-gray-800", "dark:text-gray-200", "px-3", "py-2", "text-sm", "text-gray-900", "shadow-sm", "focus:border-blue-500", "focus:ring-2", "focus:ring-blue-500/20", "focus:outline-none", "min-w-[200px]", "transition-shadow", "duration-200", 3, "input", "value"], ["role", "radiogroup", "aria-label", "Filter tasks by due date", 1, "flex", "items-center", "gap-1", "rounded-xl", "border", "border-gray-200", "dark:border-gray-700", "bg-gray-50/50", "dark:bg-gray-800/50", "px-2", "py-1"], ["type", "button", 1, "px-2.5", "py-1", "rounded-lg", "text-xs", "font-medium", "transition-colors", 3, "click"], [1, "flex", "items-center", "gap-1", "rounded-xl", "border", "border-gray-200", "dark:border-gray-700", "bg-gray-50/50", "dark:bg-gray-800/50", "px-2", "py-1"], ["routerLink", "/board", 1, "px-2.5", "py-1", "rounded-lg", "text-xs", "font-medium", "bg-blue-500", "text-white", "shadow-sm"], ["routerLink", "/dashboard", 1, "px-2.5", "py-1", "rounded-lg", "text-xs", "font-medium", "text-gray-600", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700/60", "transition-colors", "duration-150"], ["routerLink", "/profile", 1, "px-2.5", "py-1", "rounded-lg", "text-xs", "font-medium", "text-gray-600", "dark:text-gray-300", "hover:bg-gray-100", "dark:hover:bg-gray-700/60", "transition-colors", "duration-150"], [1, "flex", "items-center", "gap-2", "rounded-xl", "border", "border-gray-200", "dark:border-gray-700", "bg-gray-50/50", "dark:bg-gray-800/50", "p-1"], ["type", "button", 1, "rounded-lg", "border", "border-transparent", "px-3", "py-2", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-white", "dark:hover:bg-gray-700", "hover:shadow-sm", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "bg-blue-500", "px-3", "py-2", "text-sm", "font-medium", "text-white", "hover:bg-blue-600", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "border", "border-gray-300", "dark:border-gray-600", "bg-white/80", "dark:bg-gray-800", "px-3", "py-2", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-700", "hover:shadow-sm", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["type", "button", 1, "rounded-lg", "p-2", "text-gray-500", "dark:text-gray-400", "hover:bg-white", "dark:hover:bg-gray-700", "hover:text-gray-700", "dark:hover:text-gray-200", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "fill", "none", "viewBox", "0 0 24 24", "stroke", "currentColor", 1, "h-5", "w-5"], [1, "flex", "items-center", "gap-2", "pl-1"], ["cdkDropListGroup", "", 1, "flex-1", "min-h-0", "min-w-0", "flex", "overflow-hidden"], ["cdkDropList", "", "cdkDropListOrientation", "horizontal", 1, "grid", "gap-4", "flex-1", "min-w-0", "h-full", "overflow-x-auto", "pb-2", "items-stretch", 3, "cdkDropListDropped", "cdkDropListData"], ["cdkDrag", "", 1, "h-full", "cursor-grab", "active:cursor-grabbing", "select-none", 3, "cdkDragData"], [3, "task", "mode", "initialColumnId", "columnOptions"], [1, "fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "p-4", "bg-black/40", "dark:bg-black/60"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"], ["stroke-linecap", "round", "stroke-linejoin", "round", "stroke-width", "2", "d", "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"], [1, "flex", "items-center", "gap-2", "rounded-xl", "border", "border-indigo-100", "dark:border-indigo-900/60", "bg-indigo-50/70", "dark:bg-indigo-900/30", "px-3", "py-1.5"], [1, "w-6", "h-6", "rounded-full", "bg-gradient-to-br", "from-blue-500", "to-indigo-600", "flex", "items-center", "justify-center", "text-white", "text-xs", "font-bold", "flex-shrink-0"], [1, "text-xs", "font-medium", "text-indigo-700", "dark:text-indigo-300", "max-w-[130px]", "truncate", "hidden", "sm:block"], ["type", "button", "id", "logout-btn", 1, "rounded-lg", "border", "border-gray-300", "dark:border-gray-600", "bg-white/80", "dark:bg-gray-800", "px-3", "py-2", "text-sm", "font-medium", "text-gray-600", "dark:text-gray-300", "hover:bg-red-50", "dark:hover:bg-red-900/20", "hover:text-red-600", "dark:hover:text-red-400", "hover:border-red-300", "dark:hover:border-red-800", "focus:outline-none", "focus:ring-2", "focus:ring-red-400", "focus:ring-offset-2", "dark:focus:ring-offset-gray-900", "transition-all", "duration-200", 3, "click"], [3, "dropped", "editTask", "deleteTask", "deleteColumn", "clearColumn", "downloadColumn", "columnId", "title", "tasks", "totalTasks", "connectedListIds", "canDelete"], ["type", "button", 1, "mt-2", "w-full", "text-sm", "text-gray-500", "dark:text-gray-400", "hover:text-blue-600", "dark:hover:text-blue-400", "hover:bg-gray-50", "dark:hover:bg-gray-700/50", "border", "border-dashed", "border-gray-300", "dark:border-gray-600", "rounded-xl", "py-2.5", "transition-colors", "duration-200", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500/20", 3, "click"], [3, "saved", "cancelled", "task", "mode", "initialColumnId", "columnOptions"], [3, "saved", "cancelled"], [1, "fixed", "inset-0", "z-50", "flex", "items-center", "justify-center", "p-4", "bg-black/40", "dark:bg-black/60", 3, "click"], [1, "bg-white", "dark:bg-gray-800", "rounded-2xl", "shadow-lg", "w-full", "max-w-sm", "p-6", 3, "click"], [1, "text-lg", "font-semibold", "text-gray-900", "dark:text-gray-200", "mb-2"], [1, "text-sm", "text-gray-600", "dark:text-gray-400", "mb-4"], [1, "flex", "gap-3"], ["type", "button", 1, "flex-1", "rounded-xl", "bg-red-500", "px-4", "py-2.5", "text-sm", "font-medium", "text-white", "hover:bg-red-600", "focus:outline-none", "focus:ring-2", "focus:ring-red-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-800", "transition-colors", "duration-200", 3, "click"], ["type", "button", 1, "rounded-xl", "border", "border-gray-300", "dark:border-gray-600", "bg-white", "dark:bg-gray-700", "px-4", "py-2.5", "text-sm", "font-medium", "text-gray-700", "dark:text-gray-200", "hover:bg-gray-50", "dark:hover:bg-gray-600", "focus:outline-none", "focus:ring-2", "focus:ring-blue-500", "focus:ring-offset-2", "dark:focus:ring-offset-gray-800", "transition-colors", "duration-200", 3, "click"]], template: function KanbanBoardComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "div", 2)(3, "div", 3)(4, "h1", 4);
       \u0275\u0275text(5, "FlowBoard");
@@ -6562,44 +6539,53 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
       });
       \u0275\u0275text(19, " Upcoming ");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(20, "div", 11)(21, "button", 12);
-      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_21_listener() {
+      \u0275\u0275elementStart(20, "nav", 11)(21, "a", 12);
+      \u0275\u0275text(22, " Board ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(23, "a", 13);
+      \u0275\u0275text(24, " Dashboard ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(25, "a", 14);
+      \u0275\u0275text(26, " Profile ");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(27, "div", 15)(28, "button", 16);
+      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_28_listener() {
         return ctx.openAddColumnDialog();
       });
-      \u0275\u0275text(22, " + Add Column ");
+      \u0275\u0275text(29, " + Add Column ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(23, "button", 13);
-      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_23_listener() {
+      \u0275\u0275elementStart(30, "button", 17);
+      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_30_listener() {
         let tmp_0_0;
         return ctx.openAddTask((tmp_0_0 = ctx.columns()[0]) == null ? null : tmp_0_0.id);
       });
-      \u0275\u0275text(24, " Add Task ");
+      \u0275\u0275text(31, " Add Task ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(25, "button", 14);
-      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_25_listener() {
+      \u0275\u0275elementStart(32, "button", 18);
+      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_32_listener() {
         return ctx.downloadFilteredTasks();
       });
-      \u0275\u0275text(26, " \u2193 Download ");
+      \u0275\u0275text(33, " \u2193 Download ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(27, "button", 15);
-      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_27_listener() {
+      \u0275\u0275elementStart(34, "button", 19);
+      \u0275\u0275listener("click", function KanbanBoardComponent_Template_button_click_34_listener() {
         return ctx.toggleTheme();
       });
-      \u0275\u0275conditionalCreate(28, KanbanBoardComponent_Conditional_28_Template, 2, 0, ":svg:svg", 16)(29, KanbanBoardComponent_Conditional_29_Template, 2, 0, ":svg:svg", 16);
+      \u0275\u0275conditionalCreate(35, KanbanBoardComponent_Conditional_35_Template, 2, 0, ":svg:svg", 20)(36, KanbanBoardComponent_Conditional_36_Template, 2, 0, ":svg:svg", 20);
       \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(30, KanbanBoardComponent_Conditional_30_Template, 8, 2, "div", 17);
+      \u0275\u0275conditionalCreate(37, KanbanBoardComponent_Conditional_37_Template, 8, 2, "div", 21);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(31, "div", 18)(32, "div", 19);
-      \u0275\u0275listener("cdkDropListDropped", function KanbanBoardComponent_Template_div_cdkDropListDropped_32_listener($event) {
+      \u0275\u0275elementStart(38, "div", 22)(39, "div", 23);
+      \u0275\u0275listener("cdkDropListDropped", function KanbanBoardComponent_Template_div_cdkDropListDropped_39_listener($event) {
         return ctx.onColumnDrop($event);
       });
-      \u0275\u0275repeaterCreate(33, KanbanBoardComponent_For_34_Template, 4, 6, "div", 20, _forTrack03);
+      \u0275\u0275repeaterCreate(40, KanbanBoardComponent_For_41_Template, 4, 7, "div", 24, _forTrack03);
       \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(35, KanbanBoardComponent_Conditional_35_Template, 1, 4, "app-task-dialog", 21);
-      \u0275\u0275conditionalCreate(36, KanbanBoardComponent_Conditional_36_Template, 1, 0, "app-add-column-dialog");
-      \u0275\u0275conditionalCreate(37, KanbanBoardComponent_Conditional_37_Template, 11, 1, "div", 22);
-      \u0275\u0275conditionalCreate(38, KanbanBoardComponent_Conditional_38_Template, 11, 1, "div", 22);
-      \u0275\u0275conditionalCreate(39, KanbanBoardComponent_Conditional_39_Template, 11, 1, "div", 22);
+      \u0275\u0275conditionalCreate(42, KanbanBoardComponent_Conditional_42_Template, 1, 4, "app-task-dialog", 25);
+      \u0275\u0275conditionalCreate(43, KanbanBoardComponent_Conditional_43_Template, 1, 0, "app-add-column-dialog");
+      \u0275\u0275conditionalCreate(44, KanbanBoardComponent_Conditional_44_Template, 11, 1, "div", 26);
+      \u0275\u0275conditionalCreate(45, KanbanBoardComponent_Conditional_45_Template, 11, 1, "div", 26);
+      \u0275\u0275conditionalCreate(46, KanbanBoardComponent_Conditional_46_Template, 11, 1, "div", 26);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -6616,27 +6602,27 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
       \u0275\u0275classProp("bg-red-500", ctx.dateFilter() === "overdue")("text-white", ctx.dateFilter() === "overdue")("shadow-sm", ctx.dateFilter() === "overdue")("text-gray-600", ctx.dateFilter() !== "overdue")("dark:text-gray-300", ctx.dateFilter() !== "overdue")("hover:bg-gray-100", ctx.dateFilter() !== "overdue")("dark:hover:bg-gray-700/60", ctx.dateFilter() !== "overdue");
       \u0275\u0275advance(2);
       \u0275\u0275classProp("bg-emerald-500", ctx.dateFilter() === "upcoming")("text-white", ctx.dateFilter() === "upcoming")("shadow-sm", ctx.dateFilter() === "upcoming")("text-gray-600", ctx.dateFilter() !== "upcoming")("dark:text-gray-300", ctx.dateFilter() !== "upcoming")("hover:bg-gray-100", ctx.dateFilter() !== "upcoming")("dark:hover:bg-gray-700/60", ctx.dateFilter() !== "upcoming");
-      \u0275\u0275advance(9);
+      \u0275\u0275advance(16);
       \u0275\u0275attribute("aria-label", ctx.theme() === "light" ? "Switch to dark mode" : "Switch to light mode");
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.theme() === "light" ? 28 : 29);
+      \u0275\u0275conditional(ctx.theme() === "light" ? 35 : 36);
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.currentUser() ? 30 : -1);
+      \u0275\u0275conditional(ctx.currentUser() ? 37 : -1);
       \u0275\u0275advance(2);
       \u0275\u0275styleProp("grid-template-columns", "repeat(" + ctx.columns().length + ", minmax(260px, 1fr))");
       \u0275\u0275property("cdkDropListData", ctx.columnDefs());
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.columns());
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.showTaskDialog() ? 35 : -1);
+      \u0275\u0275conditional(ctx.showTaskDialog() ? 42 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.showAddColumnDialog() ? 36 : -1);
+      \u0275\u0275conditional(ctx.showAddColumnDialog() ? 43 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.showClearColumnConfirm() ? 37 : -1);
+      \u0275\u0275conditional(ctx.showClearColumnConfirm() ? 44 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional((tmp_39_0 = ctx.showDeleteTaskConfirm()) ? 38 : -1, tmp_39_0);
+      \u0275\u0275conditional((tmp_39_0 = ctx.showDeleteTaskConfirm()) ? 45 : -1, tmp_39_0);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.showDeleteConfirm() ? 39 : -1);
+      \u0275\u0275conditional(ctx.showDeleteConfirm() ? 46 : -1);
     }
   }, dependencies: [
     CdkDropListGroup,
@@ -6644,7 +6630,8 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
     CdkDrag,
     KanbanColumnComponent,
     TaskDialogComponent,
-    AddColumnDialogComponent
+    AddColumnDialogComponent,
+    RouterLink
   ], styles: ["\n\n[_nghost-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 0%;\n  min-height: 0;\n  overflow: hidden;\n}\n/*# sourceMappingURL=kanban-board.component.css.map */"] });
 };
 (() => {
@@ -6656,7 +6643,8 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
       CdkDrag,
       KanbanColumnComponent,
       TaskDialogComponent,
-      AddColumnDialogComponent
+      AddColumnDialogComponent,
+      RouterLink
     ], template: `<div class="flex flex-col h-full px-4 pt-4 pb-2 max-w-[1600px] w-full mx-auto overflow-hidden">\r
   <!-- Sticky header: translucent background, backdrop blur, subtle border -->\r
   <header\r
@@ -6712,6 +6700,21 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
             </button>\r
           </div>\r
         </div>\r
+        <!-- Navigation links -->\r
+        <nav\r
+          class="flex items-center gap-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 px-2 py-1">\r
+          <a routerLink="/board" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-500 text-white shadow-sm">\r
+            Board\r
+          </a>\r
+          <a routerLink="/dashboard"\r
+            class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">\r
+            Dashboard\r
+          </a>\r
+          <a routerLink="/profile"\r
+            class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">\r
+            Profile\r
+          </a>\r
+        </nav>\r
         <div\r
           class="flex items-center gap-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 p-1">\r
           <button type="button" (click)="openAddColumnDialog()"\r
@@ -6752,11 +6755,11 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
             class="flex items-center gap-2 rounded-xl border border-indigo-100 dark:border-indigo-900/60 bg-indigo-50/70 dark:bg-indigo-900/30 px-3 py-1.5">\r
             <div\r
               class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">\r
-              {{ currentUser()!.email[0].toUpperCase() }}\r
+              {{ avatarInitial() }}\r
             </div>\r
             <span\r
               class="text-xs font-medium text-indigo-700 dark:text-indigo-300 max-w-[130px] truncate hidden sm:block">\r
-              {{ currentUser()!.email }}\r
+              {{ displayName() || currentUser()!.email }}\r
             </span>\r
           </div>\r
           <button type="button" id="logout-btn" (click)="logout()"\r
@@ -6777,7 +6780,7 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
       [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'">\r
       @for (col of columns(); track col.id) {\r
       <div cdkDrag [cdkDragData]="col" class="h-full cursor-grab active:cursor-grabbing select-none">\r
-        <app-kanban-column [columnId]="col.id" [title]="col.title" [tasks]="col.tasks"\r
+        <app-kanban-column [columnId]="col.id" [title]="col.title" [tasks]="col.tasks" [totalTasks]="allTaskCount()"\r
           [connectedListIds]="connectedListIds()" [canDelete]="columns().length > 1" (dropped)="onDrop($event)"\r
           (editTask)="openEditTask($event)" (deleteTask)="requestDeleteTask($event)"\r
           (deleteColumn)="requestDeleteColumn(col.id, col.title)" (clearColumn)="requestClearColumn(col.id, col.title)"\r
@@ -6881,9 +6884,9 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(KanbanBoardComponent, { className: "KanbanBoardComponent", filePath: "src/app/components/kanban-board/kanban-board.component.ts", lineNumber: 36 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(KanbanBoardComponent, { className: "KanbanBoardComponent", filePath: "src/app/components/kanban-board/kanban-board.component.ts", lineNumber: 37 });
 })();
 export {
   KanbanBoardComponent
 };
-//# sourceMappingURL=chunk-JWDHBP6L.js.map
+//# sourceMappingURL=chunk-4E2TQJYK.js.map

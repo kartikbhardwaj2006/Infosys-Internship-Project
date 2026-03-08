@@ -58,6 +58,28 @@ export class AuthService {
     }
 
     /**
+     * Update the currently logged-in user's profile fields (name, bio).
+     * Persists changes to both the users list and the active session.
+     */
+    updateUser(updates: Partial<Pick<User, 'name' | 'bio'>>): void {
+        const current = this._currentUser();
+        if (!current) return;
+        const updated: User = { ...current, ...updates };
+        // Update in user registry
+        const users = this.getAllUsers().map((u) =>
+            u.id === current.id ? updated : u
+        );
+        this.saveAllUsers(users);
+        // Update current session
+        try {
+            localStorage.setItem(SESSION_KEY, JSON.stringify(updated));
+        } catch {
+            // ignore
+        }
+        this._currentUser.set(updated);
+    }
+
+    /**
      * Mock Google login — generates a fake @gmail.com account and logs in.
      */
     mockGoogleLogin(): void {

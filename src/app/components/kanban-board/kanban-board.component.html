@@ -53,6 +53,21 @@
             </button>
           </div>
         </div>
+        <!-- Navigation links -->
+        <nav
+          class="flex items-center gap-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 px-2 py-1">
+          <a routerLink="/board" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-500 text-white shadow-sm">
+            Board
+          </a>
+          <a routerLink="/dashboard"
+            class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">
+            Dashboard
+          </a>
+          <a routerLink="/profile"
+            class="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">
+            Profile
+          </a>
+        </nav>
         <div
           class="flex items-center gap-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 p-1">
           <button type="button" (click)="openAddColumnDialog()"
@@ -93,11 +108,11 @@
             class="flex items-center gap-2 rounded-xl border border-indigo-100 dark:border-indigo-900/60 bg-indigo-50/70 dark:bg-indigo-900/30 px-3 py-1.5">
             <div
               class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-              {{ currentUser()!.email[0].toUpperCase() }}
+              {{ avatarInitial() }}
             </div>
             <span
               class="text-xs font-medium text-indigo-700 dark:text-indigo-300 max-w-[130px] truncate hidden sm:block">
-              {{ currentUser()!.email }}
+              {{ displayName() || currentUser()!.email }}
             </span>
           </div>
           <button type="button" id="logout-btn" (click)="logout()"
@@ -118,7 +133,7 @@
       [style.grid-template-columns]="'repeat(' + columns().length + ', minmax(260px, 1fr))'">
       @for (col of columns(); track col.id) {
       <div cdkDrag [cdkDragData]="col" class="h-full cursor-grab active:cursor-grabbing select-none">
-        <app-kanban-column [columnId]="col.id" [title]="col.title" [tasks]="col.tasks"
+        <app-kanban-column [columnId]="col.id" [title]="col.title" [tasks]="col.tasks" [totalTasks]="allTaskCount()"
           [connectedListIds]="connectedListIds()" [canDelete]="columns().length > 1" (dropped)="onDrop($event)"
           (editTask)="openEditTask($event)" (deleteTask)="requestDeleteTask($event)"
           (deleteColumn)="requestDeleteColumn(col.id, col.title)" (clearColumn)="requestClearColumn(col.id, col.title)"

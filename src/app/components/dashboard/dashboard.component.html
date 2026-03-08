@@ -1,0 +1,188 @@
+<div class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow">
+                    FB
+                </div>
+                <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">FlowBoard</h1>
+            </div>
+
+            <!-- Nav links -->
+            <nav class="flex items-center gap-1">
+                <a routerLink="/board"
+                    class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">
+                    Board
+                </a>
+                <a routerLink="/dashboard"
+                    class="px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 transition-colors duration-150">
+                    Dashboard
+                </a>
+                <a routerLink="/profile"
+                    class="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/60 transition-colors duration-150">
+                    Profile
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <!-- Theme toggle -->
+                <button type="button" (click)="toggleTheme()"
+                    class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                    aria-label="Toggle theme">
+                    @if (theme() === 'light') {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    }
+                </button>
+
+                @if (currentUser()) {
+                <!-- Avatar -->
+                <div
+                    class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+                    {{ avatarInitial() }}
+                </div>
+                <!-- Logout -->
+                <button type="button" (click)="logout()"
+                    class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white/80 dark:bg-gray-800 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all duration-200">
+                    Sign Out
+                </button>
+                }
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 px-4 py-8 max-w-5xl mx-auto w-full">
+
+        <!-- Welcome -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Welcome back, <span class="text-blue-600 dark:text-blue-400">{{ displayName() }}</span> 👋
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Here's an overview of your current tasks.</p>
+        </div>
+
+        <!-- Summary cards row -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+
+            <!-- Total Tasks -->
+            <div
+                class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-2 hover:shadow-md transition-shadow duration-200">
+                <div
+                    class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                </div>
+                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ totalTasks() }}</p>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Tasks</p>
+            </div>
+
+            <!-- To Do -->
+            <div
+                class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-2 hover:shadow-md transition-shadow duration-200">
+                <div
+                    class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ todoCount() }}</p>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">To Do</p>
+            </div>
+
+            <!-- In Progress -->
+            <div
+                class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-2 hover:shadow-md transition-shadow duration-200">
+                <div
+                    class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ inProgressCount() }}</p>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">In Progress</p>
+            </div>
+
+            <!-- Done -->
+            <div
+                class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm p-5 flex flex-col gap-2 hover:shadow-md transition-shadow duration-200">
+                <div
+                    class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ doneCount() }}</p>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Done</p>
+            </div>
+        </div>
+
+        <!-- Per-column breakdown -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Column Breakdown</h3>
+
+            @if (totalTasks() === 0) {
+            <div class="py-10 text-center text-gray-400 dark:text-gray-500 text-sm">
+                No tasks yet. <a routerLink="/board" class="text-blue-600 dark:text-blue-400 hover:underline">Go to the
+                    board</a> to add some.
+            </div>
+            } @else {
+            <div class="space-y-4">
+                @for (col of columnStats(); track col.id) {
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ col.title }}</span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">
+                            {{ col.count }} / {{ totalTasks() }}
+                            <span class="ml-1 text-xs text-gray-400 dark:text-gray-500">
+                                ({{ totalTasks() === 0 ? 0 : (col.count / totalTasks() * 100).toFixed(0) }}%)
+                            </span>
+                        </span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                        <div class="h-full rounded-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-all duration-500"
+                            [style.width.%]="totalTasks() === 0 ? 0 : (col.count / totalTasks() * 100)">
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Quick action -->
+        <div class="mt-6 flex justify-center">
+            <a routerLink="/board"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+                Open Kanban Board
+            </a>
+        </div>
+    </main>
+</div>

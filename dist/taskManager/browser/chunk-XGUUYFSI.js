@@ -35243,6 +35243,23 @@ var AuthService = class _AuthService {
     this._currentUser.set(null);
   }
   /**
+   * Update the currently logged-in user's profile fields (name, bio).
+   * Persists changes to both the users list and the active session.
+   */
+  updateUser(updates) {
+    const current = this._currentUser();
+    if (!current)
+      return;
+    const updated = __spreadValues(__spreadValues({}, current), updates);
+    const users = this.getAllUsers().map((u2) => u2.id === current.id ? updated : u2);
+    this.saveAllUsers(users);
+    try {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(updated));
+    } catch {
+    }
+    this._currentUser.set(updated);
+  }
+  /**
    * Mock Google login — generates a fake @gmail.com account and logs in.
    */
   mockGoogleLogin() {
@@ -35475,4 +35492,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-A3CK35KJ.js.map
+//# sourceMappingURL=chunk-XGUUYFSI.js.map

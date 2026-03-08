@@ -20,6 +20,23 @@ export const routes: Routes = [
             ),
         canActivate: [authGuard],
     },
+    {
+        path: 'dashboard',
+        loadComponent: () =>
+            import('./components/dashboard/dashboard.component').then(
+                (m) => m.DashboardComponent
+            ),
+        canActivate: [authGuard],
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./components/profile/profile.component').then(
+                (m) => m.ProfileComponent
+            ),
+        canActivate: [authGuard],
+    },
     { path: '', redirectTo: 'board', pathMatch: 'full' },
     { path: '**', redirectTo: 'board' },
 ];
+
