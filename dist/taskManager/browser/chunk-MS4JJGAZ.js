@@ -3,7 +3,7 @@ import {
   setClassMetadata,
   signal,
   ɵɵdefineInjectable
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // src/app/services/toast.service.ts
 var ToastService = class _ToastService {
@@ -43,4 +43,4 @@ var ToastService = class _ToastService {
 export {
   ToastService
 };
-//# sourceMappingURL=chunk-E33ZDMZZ.js.map
+//# sourceMappingURL=chunk-MS4JJGAZ.js.map

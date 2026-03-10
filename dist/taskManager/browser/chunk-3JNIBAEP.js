@@ -35205,35 +35205,44 @@ var AuthService = class _AuthService {
   currentUser = this._currentUser.asReadonly();
   // ─── Public API ───────────────────────────────────────────────────────────
   /**
-   * Attempt login. Returns null on success, error message string on failure.
+   * STEP 2 & 3 — Login validation with normalized comparison + safe empty-list handling.
+   * Returns null on success, error message string on failure.
    */
   login(email, password) {
     const users = this.getAllUsers();
-    const user = users.find((u2) => u2.email.toLowerCase() === email.toLowerCase() && u2.password === password);
+    console.debug("[AuthService] login() \u2014 users in LocalStorage:", users);
+    console.debug("[AuthService] login() \u2014 email input:", email);
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = users.find((u2) => u2.email.trim().toLowerCase() === normalizedEmail && u2.password === password);
+    console.debug("[AuthService] login() \u2014 matched user:", user ?? "none");
     if (!user)
       return "Invalid email or password.";
     this.startSession(user);
     return null;
   }
   /**
-   * Register a new user. Returns null on success, error message string on failure.
+   * STEP 4 — Signup: create unique user id, push into array, save to LocalStorage.
+   * Also auto-logs the new user in (STEP 5) so they land on the board immediately.
+   * Returns null on success, error message string on failure.
    */
   signup(email, password) {
     const users = this.getAllUsers();
-    const exists = users.some((u2) => u2.email.toLowerCase() === email.toLowerCase());
+    const normalizedEmail = email.trim().toLowerCase();
+    const exists = users.some((u2) => u2.email.trim().toLowerCase() === normalizedEmail);
     if (exists)
       return "An account with this email already exists.";
     const newUser = {
       id: `user_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-      email: email.toLowerCase().trim(),
+      email: normalizedEmail,
       password
     };
     users.push(newUser);
     this.saveAllUsers(users);
+    this.startSession(newUser);
     return null;
   }
   /**
-   * Clear session only (preserves task/column data in localStorage).
+   * Clear session only (preserves task/column data in LocalStorage).
    */
   logout() {
     try {
@@ -35279,6 +35288,9 @@ var AuthService = class _AuthService {
     this.startSession(user);
   }
   // ─── Private Helpers ──────────────────────────────────────────────────────
+  /**
+   * STEP 5 — Persist user session to LocalStorage and update the reactive signal.
+   */
   startSession(user) {
     try {
       localStorage.setItem(SESSION_KEY, JSON.stringify(user));
@@ -35286,6 +35298,10 @@ var AuthService = class _AuthService {
     }
     this._currentUser.set(user);
   }
+  /**
+   * STEP 1 & 3 — Read users from LocalStorage.
+   * Returns an empty array if storage is empty or data is corrupt (never throws).
+   */
   getAllUsers() {
     try {
       const raw = localStorage.getItem(USERS_KEY);
@@ -35297,13 +35313,19 @@ var AuthService = class _AuthService {
       return [];
     }
   }
+  /**
+   * STEP 4 — Overwrite the users array in LocalStorage.
+   */
   saveAllUsers(users) {
     try {
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
     } catch (e) {
-      console.warn("Failed to save users", e);
+      console.warn("[AuthService] Failed to save users to LocalStorage", e);
     }
   }
+  /**
+   * STEP 5 — Restore session from LocalStorage on app init.
+   */
   loadSession() {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
@@ -35492,4 +35514,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-XGUUYFSI.js.map
+//# sourceMappingURL=chunk-3JNIBAEP.js.map

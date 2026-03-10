@@ -8,13 +8,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
-// ─── Gmail validator ──────────────────────────────────────────────────────────
-function gmailValidator(control: AbstractControl): ValidationErrors | null {
-    const value: string = (control.value ?? '').toLowerCase().trim();
-    if (!value) return null; // let required handle empty
-    return value.endsWith('@gmail.com') ? null : { notGmail: true };
-}
+import { TaskService } from '../../services/task.service';
+import { ColumnService } from '../../services/column.service';
 
 // ─── Password match validator ─────────────────────────────────────────────────
 function passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
@@ -35,16 +30,19 @@ export type PasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
 export class SignupComponent {
     private fb = inject(FormBuilder);
     private auth = inject(AuthService);
+    private taskService = inject(TaskService);
+    private columnService = inject(ColumnService);
     private router = inject(Router);
 
     form = this.fb.group(
         {
-            email: ['', [Validators.required, Validators.email, gmailValidator]],
+            email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
             confirmPassword: ['', Validators.required],
         },
         { validators: passwordMatchValidator }
     );
+
 
     errorMessage = signal('');
     successMessage = signal('');
@@ -98,8 +96,10 @@ export class SignupComponent {
         if (error) {
             this.errorMessage.set(error);
         } else {
-            this.successMessage.set('Account created! Redirecting to login...');
-            setTimeout(() => this.router.navigate(['/login']), 1500);
+            // Auth service now auto-logs in the new user; load per-user data and go to board
+            this.taskService.reloadForUser();
+            this.columnService.reloadForUser();
+            this.router.navigate(['/board']);
         }
     }
 

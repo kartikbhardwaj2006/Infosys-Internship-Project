@@ -1,13 +1,13 @@
 import {
   ColumnService,
   TaskService
-} from "./chunk-NAVESERO.js";
+} from "./chunk-6MKIPICL.js";
 import {
   ThemeService
-} from "./chunk-NAFCB5BB.js";
+} from "./chunk-AE7CYUM6.js";
 import {
   ToastService
-} from "./chunk-E33ZDMZZ.js";
+} from "./chunk-MS4JJGAZ.js";
 import {
   AuthService,
   Component,
@@ -38,7 +38,7 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // src/app/components/dashboard/dashboard.component.ts
 var _forTrack0 = ($index, $item) => $item.id;
@@ -506,4 +506,4 @@ var DashboardComponent = class _DashboardComponent {
 export {
   DashboardComponent
 };
-//# sourceMappingURL=chunk-7GRNM5FK.js.map
+//# sourceMappingURL=chunk-FYOKIBPA.js.map

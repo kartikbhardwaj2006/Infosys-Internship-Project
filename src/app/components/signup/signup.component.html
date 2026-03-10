@@ -42,17 +42,15 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
             <!-- Email -->
             <div class="form-group">
-                <label class="form-label" for="signup-email">Gmail Address</label>
+                <label class="form-label" for="signup-email">Email Address</label>
                 <input id="signup-email" type="email" formControlName="email" class="form-input"
                     [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched"
-                    placeholder="you@gmail.com" autocomplete="email" />
+                    placeholder="you@example.com" autocomplete="email" />
                 @if (form.get('email')?.touched) {
                 @if (form.get('email')?.hasError('required')) {
                 <p class="field-error">Email is required.</p>
                 } @else if (form.get('email')?.hasError('email')) {
                 <p class="field-error">Enter a valid email address.</p>
-                } @else if (form.get('email')?.hasError('notGmail')) {
-                <p class="field-error">Only Gmail addresses (@gmail.com) are allowed.</p>
                 }
                 }
             </div>

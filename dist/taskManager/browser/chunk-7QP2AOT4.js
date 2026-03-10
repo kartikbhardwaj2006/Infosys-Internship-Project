@@ -1,4 +1,8 @@
 import {
+  ColumnService,
+  TaskService
+} from "./chunk-6MKIPICL.js";
+import {
   DefaultValueAccessor,
   FormBuilder,
   FormControlName,
@@ -8,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
   ɵNgNoValidate
-} from "./chunk-ZCCPRT6D.js";
+} from "./chunk-RI62GUOS.js";
 import {
   AuthService,
   Component,
@@ -38,7 +42,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // src/app/components/signup/signup.component.ts
 function SignupComponent_Conditional_14_Template(rf, ctx) {
@@ -87,21 +91,14 @@ function SignupComponent_Conditional_21_Conditional_1_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function SignupComponent_Conditional_21_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 22);
-    \u0275\u0275text(1, "Only Gmail addresses (@gmail.com) are allowed.");
-    \u0275\u0275elementEnd();
-  }
-}
 function SignupComponent_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, SignupComponent_Conditional_21_Conditional_0_Template, 2, 0, "p", 22)(1, SignupComponent_Conditional_21_Conditional_1_Template, 2, 0, "p", 22)(2, SignupComponent_Conditional_21_Conditional_2_Template, 2, 0, "p", 22);
+    \u0275\u0275conditionalCreate(0, SignupComponent_Conditional_21_Conditional_0_Template, 2, 0, "p", 22)(1, SignupComponent_Conditional_21_Conditional_1_Template, 2, 0, "p", 22);
   }
   if (rf & 2) {
     let tmp_1_0;
     const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275conditional(((tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.hasError("required")) ? 0 : ((tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.hasError("email")) ? 1 : ((tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.hasError("notGmail")) ? 2 : -1);
+    \u0275\u0275conditional(((tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.hasError("required")) ? 0 : ((tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.hasError("email")) ? 1 : -1);
   }
 }
 function SignupComponent_Conditional_28_Template(rf, ctx) {
@@ -187,12 +184,6 @@ function SignupComponent_Conditional_40_Template(rf, ctx) {
     \u0275\u0275conditional(((tmp_1_0 = ctx_r0.form.get("confirmPassword")) == null ? null : tmp_1_0.hasError("required")) ? 0 : (ctx_r0.form.errors == null ? null : ctx_r0.form.errors["mismatch"]) ? 1 : -1);
   }
 }
-function gmailValidator(control) {
-  const value = (control.value ?? "").toLowerCase().trim();
-  if (!value)
-    return null;
-  return value.endsWith("@gmail.com") ? null : { notGmail: true };
-}
 function passwordMatchValidator(group) {
   const pw = group.get("password")?.value ?? "";
   const confirm = group.get("confirmPassword")?.value ?? "";
@@ -201,9 +192,11 @@ function passwordMatchValidator(group) {
 var SignupComponent = class _SignupComponent {
   fb = inject(FormBuilder);
   auth = inject(AuthService);
+  taskService = inject(TaskService);
+  columnService = inject(ColumnService);
   router = inject(Router);
   form = this.fb.group({
-    email: ["", [Validators.required, Validators.email, gmailValidator]],
+    email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
     confirmPassword: ["", Validators.required]
   }, { validators: passwordMatchValidator });
@@ -248,8 +241,9 @@ var SignupComponent = class _SignupComponent {
     if (error) {
       this.errorMessage.set(error);
     } else {
-      this.successMessage.set("Account created! Redirecting to login...");
-      setTimeout(() => this.router.navigate(["/login"]), 1500);
+      this.taskService.reloadForUser();
+      this.columnService.reloadForUser();
+      this.router.navigate(["/board"]);
     }
   }
   togglePassword() {
@@ -261,7 +255,7 @@ var SignupComponent = class _SignupComponent {
   static \u0275fac = function SignupComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _SignupComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SignupComponent, selectors: [["app-signup"]], decls: 47, vars: 19, consts: [[1, "auth-page"], [1, "auth-brand"], [1, "auth-logo"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z"], [1, "auth-title"], [1, "auth-tagline"], [1, "auth-card"], [1, "auth-card-title"], [1, "auth-card-sub"], ["role", "alert", 1, "auth-error"], ["role", "status", 1, "auth-success"], ["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "form-group"], ["for", "signup-email", 1, "form-label"], ["id", "signup-email", "type", "email", "formControlName", "email", "placeholder", "you@gmail.com", "autocomplete", "email", 1, "form-input"], ["for", "signup-password", 1, "form-label"], [1, "input-wrapper"], ["id", "signup-password", "formControlName", "password", "placeholder", "Create a strong password", "autocomplete", "new-password", 1, "form-input", 3, "input", "type"], ["type", "button", 1, "eye-btn", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2"], [1, "strength-meter", 3, "aria-label"], [1, "field-error"], ["for", "signup-confirm", 1, "form-label"], ["id", "signup-confirm", "formControlName", "confirmPassword", "placeholder", "Repeat your password", "autocomplete", "new-password", 1, "form-input", 3, "type"], ["type", "submit", 1, "btn-primary"], [1, "auth-switch"], ["routerLink", "/login", 1, "auth-link"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 20 20", "fill", "currentColor", 1, "icon"], ["fill-rule", "evenodd", "d", "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z", "clip-rule", "evenodd"], ["fill-rule", "evenodd", "d", "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z", "clip-rule", "evenodd"], ["d", "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23"], ["d", "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"], ["cx", "12", "cy", "12", "r", "3"], [1, "strength-bar"], [1, "strength-fill"], [1, "strength-label"]], template: function SignupComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SignupComponent, selectors: [["app-signup"]], decls: 47, vars: 19, consts: [[1, "auth-page"], [1, "auth-brand"], [1, "auth-logo"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 24 24", "fill", "currentColor"], ["d", "M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z"], [1, "auth-title"], [1, "auth-tagline"], [1, "auth-card"], [1, "auth-card-title"], [1, "auth-card-sub"], ["role", "alert", 1, "auth-error"], ["role", "status", 1, "auth-success"], ["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "form-group"], ["for", "signup-email", 1, "form-label"], ["id", "signup-email", "type", "email", "formControlName", "email", "placeholder", "you@example.com", "autocomplete", "email", 1, "form-input"], ["for", "signup-password", 1, "form-label"], [1, "input-wrapper"], ["id", "signup-password", "formControlName", "password", "placeholder", "Create a strong password", "autocomplete", "new-password", 1, "form-input", 3, "input", "type"], ["type", "button", 1, "eye-btn", 3, "click"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 24 24", "fill", "none", "stroke", "currentColor", "stroke-width", "2"], [1, "strength-meter", 3, "aria-label"], [1, "field-error"], ["for", "signup-confirm", 1, "form-label"], ["id", "signup-confirm", "formControlName", "confirmPassword", "placeholder", "Repeat your password", "autocomplete", "new-password", 1, "form-input", 3, "type"], ["type", "submit", 1, "btn-primary"], [1, "auth-switch"], ["routerLink", "/login", 1, "auth-link"], ["xmlns", "http://www.w3.org/2000/svg", "viewBox", "0 0 20 20", "fill", "currentColor", 1, "icon"], ["fill-rule", "evenodd", "d", "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z", "clip-rule", "evenodd"], ["fill-rule", "evenodd", "d", "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z", "clip-rule", "evenodd"], ["d", "M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"], ["x1", "1", "y1", "1", "x2", "23", "y2", "23"], ["d", "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"], ["cx", "12", "cy", "12", "r", "3"], [1, "strength-bar"], [1, "strength-fill"], [1, "strength-label"]], template: function SignupComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "div", 2);
       \u0275\u0275namespaceSVG();
@@ -288,10 +282,10 @@ var SignupComponent = class _SignupComponent {
         return ctx.onSubmit();
       });
       \u0275\u0275elementStart(17, "div", 13)(18, "label", 14);
-      \u0275\u0275text(19, "Gmail Address");
+      \u0275\u0275text(19, "Email Address");
       \u0275\u0275elementEnd();
       \u0275\u0275element(20, "input", 15);
-      \u0275\u0275conditionalCreate(21, SignupComponent_Conditional_21_Template, 3, 1);
+      \u0275\u0275conditionalCreate(21, SignupComponent_Conditional_21_Template, 2, 1);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(22, "div", 13)(23, "label", 16);
       \u0275\u0275text(24, "Password");
@@ -420,17 +414,15 @@ var SignupComponent = class _SignupComponent {
         <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>\r
             <!-- Email -->\r
             <div class="form-group">\r
-                <label class="form-label" for="signup-email">Gmail Address</label>\r
+                <label class="form-label" for="signup-email">Email Address</label>\r
                 <input id="signup-email" type="email" formControlName="email" class="form-input"\r
                     [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched"\r
-                    placeholder="you@gmail.com" autocomplete="email" />\r
+                    placeholder="you@example.com" autocomplete="email" />\r
                 @if (form.get('email')?.touched) {\r
                 @if (form.get('email')?.hasError('required')) {\r
                 <p class="field-error">Email is required.</p>\r
                 } @else if (form.get('email')?.hasError('email')) {\r
                 <p class="field-error">Enter a valid email address.</p>\r
-                } @else if (form.get('email')?.hasError('notGmail')) {\r
-                <p class="field-error">Only Gmail addresses (@gmail.com) are allowed.</p>\r
                 }\r
                 }\r
             </div>\r
@@ -529,9 +521,9 @@ var SignupComponent = class _SignupComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignupComponent, { className: "SignupComponent", filePath: "src/app/components/signup/signup.component.ts", lineNumber: 35 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SignupComponent, { className: "SignupComponent", filePath: "src/app/components/signup/signup.component.ts", lineNumber: 30 });
 })();
 export {
   SignupComponent
 };
-//# sourceMappingURL=chunk-FOAI7V7L.js.map
+//# sourceMappingURL=chunk-7QP2AOT4.js.map

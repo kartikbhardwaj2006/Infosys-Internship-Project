@@ -1,6 +1,6 @@
 import {
   ToastService
-} from "./chunk-E33ZDMZZ.js";
+} from "./chunk-MS4JJGAZ.js";
 import {
   AuthService,
   Component,
@@ -31,7 +31,7 @@ import {
   ɵɵrestoreView,
   ɵɵtext,
   ɵɵtextInterpolate
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // src/app/guards/auth.guard.ts
 var authGuard = () => {
@@ -47,25 +47,25 @@ var authGuard = () => {
 var routes = [
   {
     path: "login",
-    loadComponent: () => import("./chunk-PMDVSVW6.js").then((m) => m.LoginComponent)
+    loadComponent: () => import("./chunk-U3I76LJY.js").then((m) => m.LoginComponent)
   },
   {
     path: "signup",
-    loadComponent: () => import("./chunk-FOAI7V7L.js").then((m) => m.SignupComponent)
+    loadComponent: () => import("./chunk-7QP2AOT4.js").then((m) => m.SignupComponent)
   },
   {
     path: "board",
-    loadComponent: () => import("./chunk-4E2TQJYK.js").then((m) => m.KanbanBoardComponent),
+    loadComponent: () => import("./chunk-4S42T2K7.js").then((m) => m.KanbanBoardComponent),
     canActivate: [authGuard]
   },
   {
     path: "dashboard",
-    loadComponent: () => import("./chunk-7GRNM5FK.js").then((m) => m.DashboardComponent),
+    loadComponent: () => import("./chunk-FYOKIBPA.js").then((m) => m.DashboardComponent),
     canActivate: [authGuard]
   },
   {
     path: "profile",
-    loadComponent: () => import("./chunk-YAKOAPGA.js").then((m) => m.ProfileComponent),
+    loadComponent: () => import("./chunk-BEDBTV6J.js").then((m) => m.ProfileComponent),
     canActivate: [authGuard]
   },
   { path: "", redirectTo: "board", pathMatch: "full" },

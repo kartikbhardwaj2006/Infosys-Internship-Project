@@ -1,7 +1,7 @@
 import {
   ColumnService,
   TaskService
-} from "./chunk-NAVESERO.js";
+} from "./chunk-6MKIPICL.js";
 import {
   DefaultValueAccessor,
   FormsModule,
@@ -15,13 +15,13 @@ import {
   SelectControlValueAccessor,
   ɵNgNoValidate,
   ɵNgSelectMultipleOption
-} from "./chunk-ZCCPRT6D.js";
+} from "./chunk-RI62GUOS.js";
 import {
   ThemeService
-} from "./chunk-NAFCB5BB.js";
+} from "./chunk-AE7CYUM6.js";
 import {
   ToastService
-} from "./chunk-E33ZDMZZ.js";
+} from "./chunk-MS4JJGAZ.js";
 import {
   APP_ID,
   ApplicationRef,
@@ -136,7 +136,7 @@ import {
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2,
   ɵɵviewQuery
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // node_modules/@angular/cdk/fesm2022/_shadow-dom-chunk.mjs
 var shadowDomIsSupported;
@@ -6889,4 +6889,4 @@ var KanbanBoardComponent = class _KanbanBoardComponent {
 export {
   KanbanBoardComponent
 };
-//# sourceMappingURL=chunk-4E2TQJYK.js.map
+//# sourceMappingURL=chunk-4S42T2K7.js.map

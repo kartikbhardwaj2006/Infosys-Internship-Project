@@ -4,7 +4,7 @@ import {
   setClassMetadata,
   signal,
   ɵɵdefineInjectable
-} from "./chunk-XGUUYFSI.js";
+} from "./chunk-3JNIBAEP.js";
 
 // src/app/services/theme.service.ts
 var STORAGE_KEY = "kartik_task_manager_theme";
@@ -65,4 +65,4 @@ var ThemeService = class _ThemeService {
 export {
   ThemeService
 };
-//# sourceMappingURL=chunk-NAFCB5BB.js.map
+//# sourceMappingURL=chunk-AE7CYUM6.js.map
